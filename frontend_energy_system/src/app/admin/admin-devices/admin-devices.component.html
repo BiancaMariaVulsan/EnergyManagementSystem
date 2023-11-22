@@ -1,0 +1,94 @@
+<section class="page-header">
+    <div class="overly"></div>   
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="content text-center">
+            <h1 class="mb-3">Admin</h1>
+            <p>Select the category you want to administrate</p>
+  
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent justify-content-center">
+              <li class="breadcrumb-item"><a routerLink="/admin/devices">Devices</a></li>
+              <li class="breadcrumb-item"><a routerLink="/admin/users">Users</a></li>
+            </ol>
+          </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="products-shop section">
+<div class="container">
+    <div class="row">
+    <div class="col-md-9">
+        <div class="row align-items-center">
+        <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="section-title">
+            <h2 class="d-block text-left-sm">Devices</h2>
+            <!-- Button to add a new device -->
+            <button class="btn btn-secondary"
+                data-toggle="modal" data-target="#exampleModal"
+                (click)="addClick()" [disabled]="checkClients()"
+                data-backdrop="static" data-keyboard="false">
+                Add Device
+            </button>   
+            </div>
+        </div>
+        </div>
+
+
+    <div *ngIf="devices && devices.length > 0">
+    <ul class="device-list">
+        <li *ngFor="let device of devices" class="device-item">
+        <div class="device-info">
+            <h3>{{ device.description }}</h3>
+            <p><strong>Description:</strong> {{ device.description }}</p>
+            <p><strong>Address:</strong> {{ device.address }}</p>
+            <p><strong>Max Hourly Energy Consumption:</strong> {{ device.maxHourlyEnergConsumption }}</p>
+            <p><strong>Owner:</strong> {{ findClientById(device.personId) }}</p>
+
+            <!-- Add buttons to edit and delete each device -->
+            <button class="btn"
+                data-toggle="modal" data-target="#exampleModal"
+                (click)="editClick(device)"
+                data-backdrop="static" data-keyboard="false">
+                Edit
+            </button>   
+            <button class="btn"
+                (click)="deleteClick(device)">
+                Delete
+            </button>   
+        </div>
+        </li>
+    </ul>
+    </div>
+
+        <div *ngIf="!devices || devices.length === 0">
+        <p>No devices available.</p>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{deviceOperation}} Device</h5>
+                <a type="button" class="close" data-dismiss="modal" aria-label="Close"
+                (click)="closeClick()">
+                <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <app-device-edit *ngIf="activateAddEditDevice" [device] = "device">          
+                </app-device-edit>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+  

@@ -1,0 +1,37 @@
+the device simulator - multiple instanes of this (for each device) read at each 10 min the measurements and place 
+the measurements inside a queue
+the monitoring and communication ms - consumer
+- once it has a message from the queue, it consumes it
+- check whether the hourly consumption exceeds the threshold def for each device in assig 1
+- if exceede, notify the device by means of WEB SOCKETS (assure bidir communication)
+
+Rabbit MQ for the indirect communication between services
+
+the message sent from the device simulator should have json format {id of the device, timestamp, energy value}
+
+for 10 define multiple instances of the device simulator (that's why we need the id in the message)
+
+the device simulator should not be executed in a docker container!!!
+
+publich subscribe
+- when we have multiple consumers that need to receive the message
+
+
+see the support presentation
+the measurements are in an excef file (link in the assignment)
+teams files presentation
+
+in monitoring and communication db am nevoie de:
+- un tabel unde stochez datele de la senzori asa cum vin
+- un tabel in care stochez datele procesate
+
+- pr device simulator: ori facem jaruri diferite in functie de un fisier de configurare care contine device_id-ul
+- sau dam parametrii la configurarea din InteliJ
+- device simulator-ul il creeam manual
+
+
+dockerfile:
+FROM rabbitmq:3-management
+
+docker-compose:
+port: 15672
