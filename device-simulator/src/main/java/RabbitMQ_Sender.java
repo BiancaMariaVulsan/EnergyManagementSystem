@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -6,6 +7,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.concurrent.TimeoutException;
 
 public class RabbitMQ_Sender {
@@ -18,11 +20,18 @@ public class RabbitMQ_Sender {
             Channel channel = connection.createChannel();
             // channel.queueDeclare("measurements-queue", false, false, false, null);
 
-            // Convert double to byte array
-            byte[] valueBytes = Double.toString(value).getBytes();
+            // Create a JSON message
+            Measurement measurement = new Measurement();
+            measurement.setTimestamp(new Date());
+            measurement.setDeviceId(1);
+            measurement.setMeasurementValue(value);
+
+            // Convert Measurement object to JSON
+            Gson gson = new Gson();
+            String message = gson.toJson(measurement);
 
             // Publish the byte array
-            channel.basicPublish("", "measurements-queue", null, valueBytes);
+            channel.basicPublish("", "measurements-queue", null, message.getBytes());
             System.out.println(" [x] Sent value: " + value);
         }
     }

@@ -41,7 +41,7 @@ public class RabbitMqService implements ApplicationListener<ContextRefreshedEven
         TimerTask repeatedTask = new TimerTask() {
             public void run() {
                 try {
-                    receiver.receive();
+                    receiver.receive(queueConfig.getFactory());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

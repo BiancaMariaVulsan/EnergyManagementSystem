@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Date;
+
 @Entity
 public class Measurement {
     @Id
@@ -10,11 +12,11 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     private int id;
 
-    @Column(name = "timestamp", nullable = false)
-    private int timestamp;
+    @Column(name = "time", nullable = false)
+    private Date timestamp;
 
     @Column(name = "value", nullable = false)
-    private int value;
+    private double value;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -24,14 +26,14 @@ public class Measurement {
     public Measurement() {
     }
 
-    public Measurement(int id, int timestamp, int value, Device device) {
+    public Measurement(int id, Date timestamp, double value, Device device) {
         this.id = id;
         this.timestamp = timestamp;
         this.value = value;
         this.device = device;
     }
 
-    public Measurement(int timestamp, int value, Device device) {
+    public Measurement(Date timestamp, double value, Device device) {
         this.timestamp = timestamp;
         this.value = value;
         this.device = device;
@@ -45,19 +47,19 @@ public class Measurement {
         this.id = id;
     }
 
-    public int getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 

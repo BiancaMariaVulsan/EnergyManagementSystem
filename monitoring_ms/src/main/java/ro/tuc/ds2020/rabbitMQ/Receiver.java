@@ -1,7 +1,10 @@
 package ro.tuc.ds2020.rabbitMQ;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.*;
 import org.springframework.stereotype.Service;
+import ro.tuc.ds2020.dtos.MeasurementDTO;
+
 import java.io.IOException;
 
 @Service
@@ -10,21 +13,11 @@ public class Receiver {
     private final static String QUEUE_NAME = "measurements-queue";
     private static Channel channel;
 
-    public Receiver() {
-        try{
-            receive();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void receive() throws Exception {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setUri("amqps://torcoaxu:bphipUMqDPfi6qPCsFrX6zi8FZe6fVRV@hog.rmq5.cloudamqp.com/torcoaxu");
-
+    public static void receive(ConnectionFactory factory) throws Exception {
         try (Connection connection = factory.newConnection()) {
             channel = connection.createChannel();
-//            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+            // channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+
             channel.basicConsume(QUEUE_NAME, true, "consumerTag",
                     new DefaultConsumer(channel) {
                         @Override
@@ -32,14 +25,29 @@ public class Receiver {
                                                    Envelope envelope,
                                                    AMQP.BasicProperties properties,
                                                    byte[] body) throws IOException {
-                            String message = new String(body, "UTF-8");
-                            System.out.println(" [x] Received '" + message + "'");
+
+                            String jsonMessage = new String(body, "UTF-8");
+
+                            // Deserialize the JSON message to MeasurementDTO
+                            MeasurementDTO measurementDTO = deserializeJson(jsonMessage);
+
+                            // Now you can work with the MeasurementDTO object
+                            System.out.println(" [x] Received MeasurementDTO: " + measurementDTO);
+                            System.out.println("Timestamp: " + measurementDTO.getTimestamp());
+                            System.out.println("Value: " + measurementDTO.getValue());
+                            System.out.println("Device: " + measurementDTO.getDeviceId());
                         }
                     });
+
             System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static MeasurementDTO deserializeJson(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, MeasurementDTO.class);
     }
 
 }
