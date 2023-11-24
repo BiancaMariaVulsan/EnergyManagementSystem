@@ -10,6 +10,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminDevicesComponent } from './admin/admin-devices/admin-devices.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
+import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -21,7 +22,8 @@ const routes: Routes = [
   // {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/devices', component: AdminDevicesComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
-  {path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }}
+  {path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
+  {path: 'measurements', component: MeasurementsChartComponent } // TODO: authorize this
 ];
 
 @NgModule({
