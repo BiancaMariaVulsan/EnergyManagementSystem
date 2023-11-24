@@ -22,6 +22,10 @@ import { AdminDevicesComponent } from './admin/admin-devices/admin-devices.compo
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { UserEditComponent } from './admin/admin-users/user-edit/user-edit.component';
 import { ToastrModule } from 'ngx-toastr';
+import { DatePipe } from '@angular/common'
+import { GraphComponent } from './graph/graph.component';
+import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
+import { NgChartsModule } from 'ng2-charts';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -42,7 +46,9 @@ export function tokenGetter() {
     DeviceEditComponent,
     AdminDevicesComponent,
     AdminUsersComponent,
-    UserEditComponent
+    UserEditComponent,
+    GraphComponent,
+    MeasurementsChartComponent
   ],
   imports: [
     BrowserModule,
@@ -60,9 +66,10 @@ export function tokenGetter() {
         allowedDomains: ["http://127.0.0.1:8080", "http://127.0.0.1:8000"],
         disallowedRoutes: []
       }
-    })
+    }),
+    NgChartsModule
   ],
-  providers: [AccountService, DeviceService],
+  providers: [AccountService, DeviceService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

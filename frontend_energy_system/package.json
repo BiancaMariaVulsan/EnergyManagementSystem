@@ -20,12 +20,14 @@
     "@angular/router": "^14.2.0",
     "@auth0/angular-jwt": "^5.1.2",
     "bootstrap": "^4.3.1",
+    "chart.js": "^4.4.0",
     "jquery": "^3.7.1",
+    "ng2-charts": "^4.0.0",
+    "ngx-toastr": "^14.1.4",
     "popper.js": "^1.16.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "ngx-toastr": "^14.1.4"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.6",

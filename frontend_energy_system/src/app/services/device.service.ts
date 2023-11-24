@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Device } from '../models/device.model';
 import { environment } from 'src/environments/environment';
+import { Measurement } from '../models/measurement.model';
 
 @Injectable ()
 export class DeviceService {
@@ -34,5 +35,22 @@ export class DeviceService {
 
     deleteDevice(id: number): Observable<boolean> {
         return this.http.delete<boolean>(environment.deviceApiUrl + 'device/' + id.toString())
+    }
+
+    getHistoricalData(date: Date, deviceId: number): Observable<Measurement[]> {
+      // TODO: call the API
+      let measurements = [];
+      let crtValue = 20;
+
+      for (let i = 0; i < 60; i++) {
+        let measurement = new Measurement();
+        measurement.timestamp = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1, date.getHours(), date.getMinutes() + i);
+        measurement.value = crtValue + (Math.random() * 5);
+        measurements.push(measurement);
+      }
+
+      return new Observable(observer => {
+        observer.next(measurements);
+      })
     }
 }
