@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { RxStompService } from './websockets/rxstomp.service';
-import { Message } from '@stomp/stompjs';
-import { ToastrService } from 'ngx-toastr';
+import { WebSocketAPI } from './websockets/websocket';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +8,27 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AppComponent {
   title = 'frontend_energy_system';
-  private topicSubscription: any;
 
-  public constructor(private rxStompService: RxStompService, private toastr: ToastrService) {}
-
+  webSocketAPI: WebSocketAPI;
+  greeting: any;
+  name: string;
   ngOnInit() {
-    this.topicSubscription = this.rxStompService.watch('/topic/notification').subscribe((message: Message) => {
-      this.toastr.warning(message.body);
-    });
+    this.webSocketAPI = new WebSocketAPI(new AppComponent());
   }
 
-  ngOnDestroy() {
-    this.topicSubscription.unsubscribe();
+  connect(){
+    this.webSocketAPI._connect();
+  }
+
+  disconnect(){
+    this.webSocketAPI._disconnect();
+  }
+
+  sendMessage(){
+    this.webSocketAPI._send(this.name);
+  }
+
+  handleMessage(message){
+    this.greeting = message;
   }
 }

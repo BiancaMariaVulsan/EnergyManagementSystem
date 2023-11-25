@@ -25,8 +25,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { GraphComponent } from './graph/graph.component';
 import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
 import { NgChartsModule } from 'ng2-charts';
-import { RxStompService } from './websockets/rxstomp.service';
-import { rxStompServiceFactory } from './websockets/rxstomp-service.factory';
 import { DatePipe } from '@angular/common';
 
 export function tokenGetter() {
@@ -65,14 +63,13 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["http://127.0.0.1:8080", "http://127.0.0.1:8000"],
+        allowedDomains: ["http://127.0.0.1:8080", "http://127.0.0.1:8000", "http://127.0.0.1:8081", "ws://127.0.0.1:8081"],
         disallowedRoutes: []
       }
     }),
     NgChartsModule
   ],
-  providers: [AccountService, DeviceService, DatePipe,
-    { provide: RxStompService, useFactory: rxStompServiceFactory,}],
+  providers: [AccountService, DeviceService, DatePipe,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
