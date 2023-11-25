@@ -10,7 +10,14 @@ public class Device {
     @Column(name = "userId", nullable = false)
     private int userId;
     @Column(name = "maxHourlyEnergConsumption", nullable = false)
-    private int maxHourlyEnergConsumption;
+    private double maxHourlyEnergConsumption;
+
+    public Device(int deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Device() {
+    }
 
 
     public int getDeviceId() {
@@ -29,11 +36,11 @@ public class Device {
         this.userId = userId;
     }
 
-    public int getMaxHourlyEnergConsumption() {
+    public double getMaxHourlyEnergConsumption() {
         return maxHourlyEnergConsumption;
     }
 
-    public void setMaxHourlyEnergConsumption(int maxHourlyEnergConsumption) {
+    public void setMaxHourlyEnergConsumption(double maxHourlyEnergConsumption) {
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
     }
 }

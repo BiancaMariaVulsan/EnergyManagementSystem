@@ -6,19 +6,19 @@ import java.util.Objects;
 
 public class ProcessedDataDTO {
     private int id;
-    private int totalConsumption;
+    private double totalConsumption;
     private Device device;
 
     public ProcessedDataDTO() {
     }
 
-    public ProcessedDataDTO(int id, int totalConsumption, Device device) {
+    public ProcessedDataDTO(int id, double totalConsumption, Device device) {
         this.id = id;
         this.totalConsumption = totalConsumption;
         this.device = device;
     }
 
-    public ProcessedDataDTO(int totalConsumption, Device device) {
+    public ProcessedDataDTO(double totalConsumption, Device device) {
         this.totalConsumption = totalConsumption;
         this.device = device;
     }
@@ -31,11 +31,11 @@ public class ProcessedDataDTO {
         this.id = id;
     }
 
-    public int getTotalConsumption() {
+    public double getTotalConsumption() {
         return totalConsumption;
     }
 
-    public void setTotalConsumption(int totalConsumption) {
+    public void setTotalConsumption(double totalConsumption) {
         this.totalConsumption = totalConsumption;
     }
 

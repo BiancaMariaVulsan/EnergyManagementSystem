@@ -17,7 +17,7 @@ public class ProcessedData implements Serializable{
     private int id;
 
     @Column(name = "totalEnergyConsumption", nullable = false)
-    private int totalConsumption;
+    private double totalConsumption;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -27,13 +27,13 @@ public class ProcessedData implements Serializable{
     public ProcessedData() {
     }
 
-    public ProcessedData(int id, int totalEnergyConsumption, Device device) {
+    public ProcessedData(int id, double totalEnergyConsumption, Device device) {
         this.id = id;
         this.totalConsumption = totalEnergyConsumption;
         this.device = device;
     }
 
-    public ProcessedData(int totalEnergyConsumption, Device device) {
+    public ProcessedData(double totalEnergyConsumption, Device device) {
         this.totalConsumption = totalEnergyConsumption;
         this.device = device;
     }
@@ -46,11 +46,11 @@ public class ProcessedData implements Serializable{
         this.id = id;
     }
 
-    public int getTotalConsumption() {
+    public double getTotalConsumption() {
         return totalConsumption;
     }
 
-    public void setTotalConsumption(int totalEnergyConsumption) {
+    public void setTotalConsumption(double totalEnergyConsumption) {
         this.totalConsumption = totalEnergyConsumption;
     }
 

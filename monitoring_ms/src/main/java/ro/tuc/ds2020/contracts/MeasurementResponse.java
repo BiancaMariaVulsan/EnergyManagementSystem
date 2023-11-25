@@ -1,15 +1,14 @@
 package ro.tuc.ds2020.contracts;
 
-import javax.media.Time;
 import java.util.Date;
 
 public class MeasurementResponse {
-    double value;
-    private Time time;
+    private double value;
+    private Date timestamp;
 
-    public MeasurementResponse(double value, Time time) {
+    public MeasurementResponse(double value, Date time) {
         this.value = value;
-        this.time = time;
+        this.timestamp = time;
     }
 
     public double getValue() {
@@ -20,11 +19,11 @@ public class MeasurementResponse {
         this.value = value;
     }
 
-    public Time getTime() {
-        return time;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
