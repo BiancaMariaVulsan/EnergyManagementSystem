@@ -22,12 +22,12 @@ import { AdminDevicesComponent } from './admin/admin-devices/admin-devices.compo
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { UserEditComponent } from './admin/admin-users/user-edit/user-edit.component';
 import { ToastrModule } from 'ngx-toastr';
-import { DatePipe } from '@angular/common'
 import { GraphComponent } from './graph/graph.component';
 import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
 import { NgChartsModule } from 'ng2-charts';
 import { RxStompService } from './websockets/rxstomp.service';
 import { rxStompServiceFactory } from './websockets/rxstomp-service.factory';
+import { DatePipe } from '@angular/common';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
