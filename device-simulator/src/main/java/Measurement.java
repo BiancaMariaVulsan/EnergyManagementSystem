@@ -3,7 +3,7 @@ import java.util.Date;
 public class Measurement {
     private Date timestamp;
     private int deviceId;
-    private double measurementValue;
+    private double value;
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
@@ -13,7 +13,7 @@ public class Measurement {
         this.deviceId = deviceId;
     }
 
-    public void setMeasurementValue(double measurementValue) {
-        this.measurementValue = measurementValue;
+    public void setValue(double value) {
+        this.value = value;
     }
 }

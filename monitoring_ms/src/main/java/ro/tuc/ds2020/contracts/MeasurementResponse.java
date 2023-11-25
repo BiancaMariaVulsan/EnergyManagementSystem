@@ -3,7 +3,7 @@ package ro.tuc.ds2020.contracts;
 import java.util.Date;
 
 public class MeasurementResponse {
-    double value;
+    private double value;
     private Date timestamp;
 
     public MeasurementResponse(double value, Date time) {

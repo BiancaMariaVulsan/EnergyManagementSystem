@@ -15,7 +15,7 @@ public class Receiver {
     private final static String QUEUE_NAME = "measurements-queue";
     private static Channel channel;
 
-    public static void receive(ConnectionFactory factory) throws Exception {
+    public static void receive(ConnectionFactory factory, MeasurementsService measurementsService) throws Exception {
         try (Connection connection = factory.newConnection()) {
             channel = connection.createChannel();
             // channel.queueDeclare(QUEUE_NAME, false, false, false, null);
@@ -33,11 +33,13 @@ public class Receiver {
                             // Deserialize the JSON message to MeasurementDTO
                             MeasurementDTO measurementDTO = deserializeJson(jsonMessage);
 
+                            measurementsService.insert(measurementDTO);
+
                             // Now you can work with the MeasurementDTO object
                             System.out.println(" [x] Received MeasurementDTO: " + measurementDTO);
                             System.out.println("Timestamp: " + measurementDTO.getTimestamp());
                             System.out.println("Value: " + measurementDTO.getValue());
-                            System.out.println("Device: " + measurementDTO.getDeviceId());
+                            System.out.println("DeviceId: " + measurementDTO.getDeviceId());
                         }
                     });
 

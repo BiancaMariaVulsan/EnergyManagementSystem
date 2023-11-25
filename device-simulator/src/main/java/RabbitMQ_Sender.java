@@ -24,7 +24,7 @@ public class RabbitMQ_Sender {
             Measurement measurement = new Measurement();
             measurement.setTimestamp(new Date());
             measurement.setDeviceId(1);
-            measurement.setMeasurementValue(value);
+            measurement.setValue(value);
 
             // Convert Measurement object to JSON
             Gson gson = new Gson();

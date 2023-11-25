@@ -6,9 +6,8 @@ import java.util.Objects;
 public class MeasurementDTO {
 
     private Date timestamp;
-    private double value;
     private int deviceId;
-
+    private double value;
 
     public MeasurementDTO() {
     }
