@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { WebSocketAPI } from './websockets/websocket';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
   name: string;
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI(new AppComponent());
+    this.connect();
   }
 
   connect(){

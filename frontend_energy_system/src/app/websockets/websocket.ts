@@ -1,6 +1,7 @@
 import * as SockJS from 'sockjs-client';
 import { AppComponent } from '../app.component';
 import { Stomp } from '@stomp/stompjs';
+import { ToastrService } from 'ngx-toastr';
 
 export class WebSocketAPI {
     webSocketEndPoint: string = 'http://localhost:8001/ws';
@@ -19,7 +20,7 @@ export class WebSocketAPI {
             _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
                 _this.onMessageReceived(sdkEvent);
             });
-            //_this.stompClient.reconnect_delay = 2000;
+            _this.stompClient.reconnect_delay = 2000;
         }, this.errorCallBack);
     };
 
