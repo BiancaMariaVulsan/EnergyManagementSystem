@@ -6,11 +6,13 @@ import ro.tuc.ds2020.contracts.MeasurementRequest;
 import ro.tuc.ds2020.contracts.MeasurementResponse;
 import ro.tuc.ds2020.dtos.MeasurementDTO;
 import ro.tuc.ds2020.dtos.builders.MeasurementBuilder;
+import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Measurement;
 import ro.tuc.ds2020.repositories.MeasurementRepository;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MeasurementsService {
@@ -22,15 +24,10 @@ public class MeasurementsService {
         this.measurementRepository = measurementRepository;
     }
 
-    public ArrayList<MeasurementResponse> getMeasurements(MeasurementRequest measurementRequest) {
+    public List<MeasurementResponse> getMeasurements(MeasurementRequest measurementRequest) {
 
-        ArrayList<MeasurementResponse> measurements = new ArrayList<MeasurementResponse>();
-        measurements.add(new MeasurementResponse(1.0, new Date(120)));
-        measurements.add(new MeasurementResponse(1.0, new Date(121)));
-        measurements.add(new MeasurementResponse(1.0, new Date(122)));
-        measurements.add(new MeasurementResponse(1.0, new Date(123)));
-        measurements.add(new MeasurementResponse(1.0, new Date(124)));
-        return measurements;
+        List<Measurement> measurements = measurementRepository.findByDateAndDevice(measurementRequest.getDate(), new Device(measurementRequest.getDeviceId()));
+        return measurements.stream().map(MeasurementBuilder::toResponse).collect(Collectors.toList());
     }
 
     public int insert(MeasurementDTO measurementDTO) {

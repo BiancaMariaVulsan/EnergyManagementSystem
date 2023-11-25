@@ -19,11 +19,11 @@ public class MeasurementRequest{
         this.deviceId = deviceId;
     }
 
-    public Date getStartDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setDate(Date startDate) {
         this.date = startDate;
     }
 }

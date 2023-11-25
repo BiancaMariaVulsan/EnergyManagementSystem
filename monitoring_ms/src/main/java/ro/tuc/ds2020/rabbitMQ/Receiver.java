@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.dtos.MeasurementDTO;
 import ro.tuc.ds2020.services.MeasurementsService;
+import ro.tuc.ds2020.services.ProcessedMeasurementsService;
 
 import java.io.IOException;
 
@@ -15,7 +16,7 @@ public class Receiver {
     private final static String QUEUE_NAME = "measurements-queue";
     private static Channel channel;
 
-    public static void receive(ConnectionFactory factory, MeasurementsService measurementsService) throws Exception {
+    public static void receive(ConnectionFactory factory, MeasurementsService measurementsService, ProcessedMeasurementsService processedMeasurementsService) throws Exception {
         try (Connection connection = factory.newConnection()) {
             channel = connection.createChannel();
             // channel.queueDeclare(QUEUE_NAME, false, false, false, null);
@@ -34,6 +35,7 @@ public class Receiver {
                             MeasurementDTO measurementDTO = deserializeJson(jsonMessage);
 
                             measurementsService.insert(measurementDTO);
+                            processedMeasurementsService.addMeasurement(measurementDTO);
 
                             // Now you can work with the MeasurementDTO object
                             System.out.println(" [x] Received MeasurementDTO: " + measurementDTO);

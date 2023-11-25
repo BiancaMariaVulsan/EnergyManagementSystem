@@ -8,7 +8,7 @@ import ro.tuc.ds2020.contracts.MeasurementRequest;
 import ro.tuc.ds2020.contracts.MeasurementResponse;
 import ro.tuc.ds2020.services.MeasurementsService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -23,8 +23,8 @@ public class MeasurementController {
     }
 
     @PostMapping()
-    public ResponseEntity<ArrayList<MeasurementResponse>> insertMeasurement(@RequestBody MeasurementRequest measurementRequest) {
-        ArrayList<MeasurementResponse> measurements = measurementsService.getMeasurements(measurementRequest);
+    public ResponseEntity<List<MeasurementResponse>> insertMeasurement(@RequestBody MeasurementRequest measurementRequest) {
+        List<MeasurementResponse> measurements = measurementsService.getMeasurements(measurementRequest);
         return new ResponseEntity<>(measurements, HttpStatus.CREATED);
     }
 }

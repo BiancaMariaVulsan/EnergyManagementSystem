@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ro.tuc.ds2020.rabbitMQ.QueueConfig;
 import ro.tuc.ds2020.rabbitMQ.Receiver;
 import ro.tuc.ds2020.services.MeasurementsService;
+import ro.tuc.ds2020.services.ProcessedMeasurementsService;
 
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -21,10 +22,12 @@ public class RabbitMqConfig implements ApplicationListener<ContextRefreshedEvent
     QueueConfig queueConfig = new QueueConfig();
 
     MeasurementsService measurementsService;
+    ProcessedMeasurementsService processedMeasurementsService;
 
     @Autowired
-    public RabbitMqConfig(MeasurementsService measurementsService) {
+    public RabbitMqConfig(MeasurementsService measurementsService, ProcessedMeasurementsService processedMeasurementsService) {
         this.measurementsService = measurementsService;
+        this.processedMeasurementsService = processedMeasurementsService;
     }
 
     void init() throws URISyntaxException, NoSuchAlgorithmException, KeyManagementException {
@@ -51,7 +54,7 @@ public class RabbitMqConfig implements ApplicationListener<ContextRefreshedEvent
         TimerTask repeatedTask = new TimerTask() {
             public void run() {
                 try {
-                    receiver.receive(queueConfig.getFactory(), measurementsService);
+                    Receiver.receive(queueConfig.getFactory(), measurementsService, processedMeasurementsService);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

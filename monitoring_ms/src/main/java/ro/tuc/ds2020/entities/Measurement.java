@@ -13,7 +13,7 @@ public class Measurement {
     private int id;
 
     @Column(name = "time", nullable = false)
-    private Date timestamp;
+    private Date date;
 
     @Column(name = "value", nullable = false)
     private double value;
@@ -28,13 +28,13 @@ public class Measurement {
 
     public Measurement(int id, Date timestamp, double value, Device device) {
         this.id = id;
-        this.timestamp = timestamp;
+        this.date = timestamp;
         this.value = value;
         this.device = device;
     }
 
     public Measurement(Date timestamp, double value, Device device) {
-        this.timestamp = timestamp;
+        this.date = timestamp;
         this.value = value;
         this.device = device;
     }
@@ -47,12 +47,12 @@ public class Measurement {
         this.id = id;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(Date timestamp) {
+        this.date = timestamp;
     }
 
     public double getValue() {
