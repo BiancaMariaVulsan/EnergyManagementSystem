@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.contracts.MeasurementRequest;
 import ro.tuc.ds2020.contracts.MeasurementResponse;
-import ro.tuc.ds2020.services.MeasurementsService;
+import ro.tuc.ds2020.services.ProcessedMeasurementsService;
 
 import java.util.List;
 
@@ -15,16 +15,16 @@ import java.util.List;
 @RequestMapping(value = "/person")
 public class MeasurementController {
 
-    private final MeasurementsService measurementsService;
+    private final ProcessedMeasurementsService processedMeasurementsService;
 
     @Autowired
-    public MeasurementController(MeasurementsService measurementsService) {
-        this.measurementsService = measurementsService;
+    public MeasurementController(ProcessedMeasurementsService processedMeasurementsService) {
+        this.processedMeasurementsService = processedMeasurementsService;
     }
 
     @PostMapping()
     public ResponseEntity<List<MeasurementResponse>> insertMeasurement(@RequestBody MeasurementRequest measurementRequest) {
-        List<MeasurementResponse> measurements = measurementsService.getMeasurements(measurementRequest);
+        List<MeasurementResponse> measurements = processedMeasurementsService.getMeasurements(measurementRequest);
         return new ResponseEntity<>(measurements, HttpStatus.CREATED);
     }
 }

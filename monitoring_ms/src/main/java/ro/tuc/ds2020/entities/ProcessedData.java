@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class ProcessedData implements Serializable{
@@ -23,19 +24,23 @@ public class ProcessedData implements Serializable{
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "deviceId")
     private Device device;
+    @Column(name = "time", nullable = false)
+    private Date date;
 
     public ProcessedData() {
     }
 
-    public ProcessedData(int id, double totalEnergyConsumption, Device device) {
+    public ProcessedData(int id, double totalEnergyConsumption, Device device, Date date) {
         this.id = id;
         this.totalConsumption = totalEnergyConsumption;
         this.device = device;
+        this.date = date;
     }
 
-    public ProcessedData(double totalEnergyConsumption, Device device) {
+    public ProcessedData(double totalEnergyConsumption, Device device, Date date) {
         this.totalConsumption = totalEnergyConsumption;
         this.device = device;
+        this.date = date;
     }
 
     public int getId() {
@@ -60,6 +65,14 @@ public class ProcessedData implements Serializable{
 
     public void setDevie(Device device) {
         this.device = device;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

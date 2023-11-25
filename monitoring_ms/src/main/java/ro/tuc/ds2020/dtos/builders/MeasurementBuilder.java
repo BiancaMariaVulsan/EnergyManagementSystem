@@ -17,8 +17,4 @@ public class MeasurementBuilder {
     public static Measurement toEntity(MeasurementDTO measurementDTO) {
         return new Measurement(measurementDTO.getTimestamp(), measurementDTO.getValue(), new Device(measurementDTO.getDeviceId()));
     }
-
-    public static MeasurementResponse toResponse(Measurement measurement) {
-        return new MeasurementResponse(measurement.getValue(), measurement.getDate());
-    }
 }

@@ -15,7 +15,7 @@ export class AppComponent {
   public constructor(private rxStompService: RxStompService, private toastr: ToastrService) {}
 
   ngOnInit() {
-    this.topicSubscription = this.rxStompService.watch('/topic/demo').subscribe((message: Message) => {
+    this.topicSubscription = this.rxStompService.watch('/topic/notification').subscribe((message: Message) => {
       this.toastr.warning(message.body);
     });
   }

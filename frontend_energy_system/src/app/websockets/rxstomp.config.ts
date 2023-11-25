@@ -2,13 +2,13 @@ import { RxStompConfig } from "@stomp/rx-stomp";
 
 export const WebsocketRxStompConfig: RxStompConfig = {
   // Which server?
-  brokerURL: 'ws://127.0.0.1:15674/ws',
+  brokerURL: 'ws:/127.0.0.1:8001/ws',
 
   // Headers
   // Typical keys: login, passcode, host
   connectHeaders: {
-    login: 'guest',
-    passcode: 'guest',
+    // login: 'guest',
+    // passcode: 'guest',
   },
 
   // How often to heartbeat?

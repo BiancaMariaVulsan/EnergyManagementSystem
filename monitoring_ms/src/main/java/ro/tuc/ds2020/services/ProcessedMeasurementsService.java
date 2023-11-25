@@ -3,7 +3,10 @@ package ro.tuc.ds2020.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import ro.tuc.ds2020.contracts.MeasurementRequest;
+import ro.tuc.ds2020.contracts.MeasurementResponse;
 import ro.tuc.ds2020.dtos.MeasurementDTO;
+import ro.tuc.ds2020.dtos.builders.ProcessedDataBuilder;
 import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Notification;
 import ro.tuc.ds2020.entities.ProcessedData;
@@ -11,19 +14,27 @@ import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.ProcessedDataRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class ProcessedMeasurementsService {
-    HashMap<Integer, ArrayList<Double>> measurements;
-    ProcessedDataRepository processedDataRepository;
+    private HashMap<Integer, ArrayList<Double>> measurements;
     private SimpMessagingTemplate messagingTemplate;
-    DeviceRepository deviceRepository;
+
+    private ProcessedDataRepository processedDataRepository;
+    private DeviceRepository deviceRepository;
 
     @Autowired
-    public ProcessedMeasurementsService(ProcessedDataRepository processedDataRepository, DeviceRepository deviceRepository) {
+    public ProcessedMeasurementsService(ProcessedDataRepository processedDataRepository,
+                                        DeviceRepository deviceRepository,
+                                        SimpMessagingTemplate messagingTemplate) {
         this.processedDataRepository = processedDataRepository;
         this.deviceRepository = deviceRepository;
+        this.messagingTemplate = messagingTemplate;
         measurements = new HashMap<>();
     }
 
@@ -35,14 +46,16 @@ public class ProcessedMeasurementsService {
 
             deviceMeasurements.add(measurement.getValue());
 
-            if (deviceMeasurements.size() > 60) {
-                deviceMeasurements.remove(0);
+            if (deviceMeasurements.size() == 10) {
+                Date endDate = measurement.getTimestamp();
+                List<Double> copyOfMeasurements = new ArrayList<>(deviceMeasurements);
+                ProcessedData processedData = computeHourlyConsumption(deviceId, endDate, copyOfMeasurements);
+                Device device = deviceRepository.findById(processedData.getDevie().getDeviceId());
+                deviceMeasurements.clear();
+                if (processedData.getTotalConsumption() > device.getMaxHourlyEnergConsumption()) {
+                    sendNotificationAsync(deviceId, "High energy consumption alert!");
+                }
             }
-
-            if (deviceMeasurements.size() == 60) {
-                computeHourlyConsumption(deviceId);
-            }
-
         } else {
             ArrayList<Double> deviceMeasurements = new ArrayList<>();
             deviceMeasurements.add(measurement.getValue());
@@ -50,23 +63,25 @@ public class ProcessedMeasurementsService {
         }
     }
 
-    public void computeHourlyConsumption(int deviceId) {
+    public ProcessedData computeHourlyConsumption(int deviceId, Date endDate, List<Double> measurementsCopy) {
         double totalConspumption = 0;
-        for (Double value: measurements.get(deviceId)) {
+        for (Double value: measurementsCopy) {
             totalConspumption += value;
         }
-        totalConspumption /= measurements.get(deviceId).size();
+        totalConspumption /= measurementsCopy.size();
         Device device = deviceRepository.findById(deviceId);
-        ProcessedData processedData = new ProcessedData(totalConspumption, device);
+        ProcessedData processedData = new ProcessedData(totalConspumption, device, endDate);
         insert(processedData);
 
-        if (totalConspumption > device.getMaxHourlyEnergConsumption()) {
-            sendNotification(deviceId, "High energy consumption alert!");
-        }
+        return processedData;
     }
 
     public void insert(ProcessedData processedData) {
         processedDataRepository.save(processedData);
+    }
+
+    private CompletableFuture<Void> sendNotificationAsync(int deviceId, String message) {
+        return CompletableFuture.runAsync(() -> sendNotification(deviceId, message));
     }
 
     private void sendNotification(int deviceId, String message) {
@@ -75,5 +90,11 @@ public class ProcessedMeasurementsService {
 
         // Broadcast the notification to the WebSocket topic
         messagingTemplate.convertAndSend("/topic/notification", notification);
+    }
+
+    public List<MeasurementResponse> getMeasurements(MeasurementRequest measurementRequest) {
+
+        List<ProcessedData> measurements = processedDataRepository.findByDateAndDevice(measurementRequest.getDate(), new Device(measurementRequest.getDeviceId()));
+        return measurements.stream().map(ProcessedDataBuilder::toResponse).collect(Collectors.toList());
     }
 }
