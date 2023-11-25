@@ -64,11 +64,10 @@ public class ProcessedMeasurementsService {
     }
 
     public ProcessedData computeHourlyConsumption(int deviceId, Date endDate, List<Double> measurementsCopy) {
-        double totalConspumption = 0;
-        for (Double value: measurementsCopy) {
-            totalConspumption += value;
-        }
-        totalConspumption /= measurementsCopy.size();
+        int size = measurementsCopy.size();
+        double firstValue = measurementsCopy.get(0);
+        double lastValue = measurementsCopy.get(size-1);
+        double totalConspumption = lastValue - firstValue;
         Device device = deviceRepository.findById(deviceId);
         ProcessedData processedData = new ProcessedData(totalConspumption, device, endDate);
         insert(processedData);
@@ -86,7 +85,7 @@ public class ProcessedMeasurementsService {
 
     private void sendNotification(int deviceId, String message) {
         // Construct the notification message
-        Notification notification = new Notification(message);
+        Notification notification = new Notification(message, deviceId);
 
         // Broadcast the notification to the WebSocket topic
         messagingTemplate.convertAndSend("/topic/notification", notification);

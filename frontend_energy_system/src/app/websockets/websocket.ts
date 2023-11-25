@@ -50,6 +50,16 @@ export class WebSocketAPI {
 
     onMessageReceived(message) {
         console.log("Message Recieved from Server :: " + message);
+        const parsedBody = JSON.parse(message.body);
+
+        // Accessing the 'body' and 'id' fields
+        const notif = parsedBody.message;
+        const deviceId = parsedBody.deviceId;
+      
+        // Now you can use 'body' and 'id' as needed
+        console.log("Parsed Body:", notif);
+        console.log("Device Id:", deviceId);
+        
         this.appComponent.handleMessage(JSON.stringify(message.body));
     }
 }

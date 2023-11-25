@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { WebSocketAPI } from './websockets/websocket';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,7 @@ export class AppComponent {
   title = 'frontend_energy_system';
 
   webSocketAPI: WebSocketAPI;
-  greeting: any;
+  notification: Notification;
   name: string;
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI(new AppComponent());
@@ -31,6 +30,6 @@ export class AppComponent {
   }
 
   handleMessage(message){
-    this.greeting = message;
+    this.notification = message;
   }
 }
