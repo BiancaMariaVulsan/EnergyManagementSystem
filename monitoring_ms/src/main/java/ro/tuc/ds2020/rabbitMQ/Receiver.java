@@ -2,8 +2,10 @@ package ro.tuc.ds2020.rabbitMQ;
 
 import com.google.gson.Gson;
 import com.rabbitmq.client.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.dtos.MeasurementDTO;
+import ro.tuc.ds2020.services.MeasurementsService;
 
 import java.io.IOException;
 

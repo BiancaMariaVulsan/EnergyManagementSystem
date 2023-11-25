@@ -2,7 +2,7 @@ package ro.tuc.ds2020.services;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ro.tuc.ds2020.rabbitMQ.QueueConfig;
 import ro.tuc.ds2020.rabbitMQ.Receiver;
 
@@ -12,11 +12,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@Service
+@Component
 public class RabbitMqService implements ApplicationListener<ContextRefreshedEvent> {
 
     Receiver receiver = new Receiver();
     QueueConfig queueConfig = new QueueConfig();
+
     void init() throws URISyntaxException, NoSuchAlgorithmException, KeyManagementException {
         queueConfig.setFactory();
         readMessagesFromMonitoringQueue("measurements-queue");

@@ -12,6 +12,13 @@ public class Device {
     @Column(name = "maxHourlyEnergConsumption", nullable = false)
     private int maxHourlyEnergConsumption;
 
+    public Device(int deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Device() {
+    }
+
 
     public int getDeviceId() {
         return deviceId;

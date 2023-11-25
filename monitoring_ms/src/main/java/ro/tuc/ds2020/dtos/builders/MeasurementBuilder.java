@@ -1,6 +1,7 @@
 package ro.tuc.ds2020.dtos.builders;
 
 import ro.tuc.ds2020.dtos.MeasurementDTO;
+import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Measurement;
 
 public class MeasurementBuilder {
@@ -12,7 +13,7 @@ public class MeasurementBuilder {
         return new MeasurementDTO(measurement.getTimestamp(), measurement.getValue(), measurement.getDevice().getDeviceId());
     }
 
-//    public static Measurement toEntity(MeasurementDTO measurementDTO) {
-//        return new Measurement(measurementDTO.getTimestamp(), measurementDTO.getValue(), measurementDTO.getDeviceId());
-//    }
+    public static Measurement toEntity(MeasurementDTO measurementDTO) {
+        return new Measurement(measurementDTO.getTimestamp(), measurementDTO.getValue(), new Device(measurementDTO.getDeviceId()));
+    }
 }
