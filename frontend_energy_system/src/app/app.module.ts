@@ -26,6 +26,8 @@ import { DatePipe } from '@angular/common'
 import { GraphComponent } from './graph/graph.component';
 import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
 import { NgChartsModule } from 'ng2-charts';
+import { RxStompService } from './websockets/rxstomp.service';
+import { rxStompServiceFactory } from './websockets/rxstomp-service.factory';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -69,7 +71,8 @@ export function tokenGetter() {
     }),
     NgChartsModule
   ],
-  providers: [AccountService, DeviceService, DatePipe],
+  providers: [AccountService, DeviceService, DatePipe,
+    { provide: RxStompService, useFactory: rxStompServiceFactory,}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
