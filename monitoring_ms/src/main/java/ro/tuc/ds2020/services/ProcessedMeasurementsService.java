@@ -46,14 +46,14 @@ public class ProcessedMeasurementsService {
 
             deviceMeasurements.add(measurement.getValue());
 
-            if (deviceMeasurements.size() == 10) {
+            if (deviceMeasurements.size() == 5) {
                 Date endDate = measurement.getTimestamp();
                 List<Double> copyOfMeasurements = new ArrayList<>(deviceMeasurements);
                 ProcessedData processedData = computeHourlyConsumption(deviceId, endDate, copyOfMeasurements);
                 Device device = deviceRepository.findById(processedData.getDevie().getDeviceId());
                 deviceMeasurements.clear();
                 if (processedData.getTotalConsumption() > device.getMaxHourlyEnergConsumption()) {
-                    sendNotificationAsync(deviceId, "High energy consumption alert!");
+                    sendNotificationAsync(device.getUserId(), deviceId, "High energy consumption alert for!");
                 }
             }
         } else {
@@ -79,16 +79,16 @@ public class ProcessedMeasurementsService {
         processedDataRepository.save(processedData);
     }
 
-    private CompletableFuture<Void> sendNotificationAsync(int deviceId, String message) {
-        return CompletableFuture.runAsync(() -> sendNotification(deviceId, message));
+    private CompletableFuture<Void> sendNotificationAsync(int userId, int deviceId, String message) {
+        return CompletableFuture.runAsync(() -> sendNotification(userId, deviceId, message));
     }
 
-    private void sendNotification(int deviceId, String message) {
+    private void sendNotification(int userId, int deviceId, String message) {
         // Construct the notification message
         Notification notification = new Notification(message, deviceId);
 
         // Broadcast the notification to the WebSocket topic
-        messagingTemplate.convertAndSend("/topic/notification", notification);
+        messagingTemplate.convertAndSend("/topic/notification/" + userId, notification);
     }
 
     public List<MeasurementResponse> getMeasurements(MeasurementRequest measurementRequest) {

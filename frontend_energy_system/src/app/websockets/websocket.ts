@@ -1,15 +1,13 @@
 import * as SockJS from 'sockjs-client';
-import { AppComponent } from '../app.component';
 import { Stomp } from '@stomp/stompjs';
-import { ToastrService } from 'ngx-toastr';
+import { WebSocketSrvice } from '../services/websockets.service';
+import { NotificationMsg } from '../models/notification.model';
 
 export class WebSocketAPI {
     webSocketEndPoint: string = 'http://localhost:8001/ws';
-    topic: string = "/topic/notification";
+    topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
-    appComponent: AppComponent;
-    constructor(appComponent: AppComponent){
-        this.appComponent = appComponent;
+    constructor(private websocketService: WebSocketSrvice){
     }
     _connect() {
         console.log("Initialize WebSocket Connection");
@@ -25,6 +23,8 @@ export class WebSocketAPI {
     };
 
     _disconnect() {
+        let ws = new SockJS(this.webSocketEndPoint);
+        this.stompClient = Stomp.over(ws);
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
         }
@@ -60,6 +60,6 @@ export class WebSocketAPI {
         console.log("Parsed Body:", notif);
         console.log("Device Id:", deviceId);
         
-        this.appComponent.handleMessage(JSON.stringify(message.body));
+        this.websocketService.handleMessage(new NotificationMsg(notif, deviceId));
     }
 }

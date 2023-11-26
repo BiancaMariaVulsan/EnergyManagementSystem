@@ -26,6 +26,7 @@ import { GraphComponent } from './graph/graph.component';
 import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
 import { NgChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
+import { WebSocketSrvice } from './services/websockets.service';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -69,7 +70,7 @@ export function tokenGetter() {
     }),
     NgChartsModule
   ],
-  providers: [AccountService, DeviceService, DatePipe,],
+  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

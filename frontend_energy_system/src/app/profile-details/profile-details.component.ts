@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginUserReply } from '../models/loginuser.model';
+import { WebSocketSrvice } from '../services/websockets.service';
 
 @Component({
   selector: 'app-profile-details',
@@ -8,7 +9,7 @@ import { LoginUserReply } from '../models/loginuser.model';
 })
 export class ProfileDetailsComponent implements OnInit {
   loggedUser: LoginUserReply = new LoginUserReply();
-  constructor() { }
+  constructor(private webSocketService: WebSocketSrvice) { }
 
   ngOnInit(): void {
     this.loggedUser.email = localStorage.getItem("eshop-email");
@@ -19,5 +20,6 @@ export class ProfileDetailsComponent implements OnInit {
 
   logout() {
     localStorage.clear();
+    this.webSocketService.disconnect();
   }
 }
