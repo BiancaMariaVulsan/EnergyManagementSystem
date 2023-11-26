@@ -16,12 +16,12 @@ public class MeasurementsReader {
 
     public static void main(String[] args) {
         MeasurementsReader csvReader = new MeasurementsReader();
-        csvReader.readCsvValues();
+        csvReader.readCsvValues(Integer.parseInt(args[0]));
     }
 
-    public void readCsvValues() {
+    public void readCsvValues(int deviceId) {
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new ReadCsvTask(), 0, 1000); // Read one value per second
+        timer.scheduleAtFixedRate(new ReadCsvTask(deviceId), 0, 1000); // Read one value per second
 
         // Stop after 10 seconds
          try {
@@ -34,6 +34,10 @@ public class MeasurementsReader {
 
     private class ReadCsvTask extends TimerTask {
         private Path csvFilePath = Paths.get(CSV_FILE_PATH);
+        private int deviceId;
+        public ReadCsvTask(int deviceId) {
+            this.deviceId = deviceId;
+        }
 
         @Override
         public void run() {
@@ -49,7 +53,7 @@ public class MeasurementsReader {
                     System.out.println("Read value: " + doubleValue);
 
                     // Send the double value to the RabbitMQ queue
-                    RabbitMQ_Sender.send(doubleValue);
+                    RabbitMQ_Sender.send(doubleValue, deviceId);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

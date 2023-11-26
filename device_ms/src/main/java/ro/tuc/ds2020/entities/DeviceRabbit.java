@@ -1,8 +1,5 @@
 package ro.tuc.ds2020.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-
 public class DeviceRabbit {
     private int deviceId;
     private int userId;

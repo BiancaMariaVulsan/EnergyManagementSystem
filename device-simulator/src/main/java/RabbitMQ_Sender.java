@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitMQ_Sender {
 
-    public static void send(double value) throws IOException, TimeoutException, URISyntaxException, NoSuchAlgorithmException, KeyManagementException {
+    public static void send(double value, int id) throws IOException, TimeoutException, URISyntaxException, NoSuchAlgorithmException, KeyManagementException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUri("amqps://torcoaxu:bphipUMqDPfi6qPCsFrX6zi8FZe6fVRV@hog.rmq5.cloudamqp.com/torcoaxu");
 
@@ -23,7 +23,7 @@ public class RabbitMQ_Sender {
             // Create a JSON message
             Measurement measurement = new Measurement();
             measurement.setTimestamp(new Date());
-            measurement.setDeviceId(53);
+            measurement.setDeviceId(id);
             measurement.setValue(value);
 
             // Convert Measurement object to JSON

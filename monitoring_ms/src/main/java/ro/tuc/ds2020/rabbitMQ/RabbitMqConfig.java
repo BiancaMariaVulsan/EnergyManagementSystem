@@ -58,13 +58,14 @@ public class RabbitMqConfig implements ApplicationListener<ContextRefreshedEvent
             public void run() {
                 try {
 //                    Receiver.receive(queueConfig.getFactory(), measurementsService, processedMeasurementsService);
-                    ReceiverDeviceQ.receive(queueConfig.getFactory(), deviceService);
+//                    Thread.sleep(1000);
+//                    ReceiverDeviceQ.receive(queueConfig.getFactory(), deviceService);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
         };
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(repeatedTask, 0, 100);
+        timer.scheduleAtFixedRate(repeatedTask, 0, 300);
     }
 }

@@ -36,6 +36,7 @@ public class DeviceController {
     @PostMapping()
     public ResponseEntity<Integer> insertDevice(@Valid @RequestBody DeviceDetailsDTO deviceDTO) {
         int deviceID = deviceService.insert(deviceDTO);
+        deviceDTO.setId(deviceID);
         try {
             RabbitMqSender.send(DeviceBuilder.toDeviceRabbit(deviceDTO, "insert"));
         } catch (Exception e) {
