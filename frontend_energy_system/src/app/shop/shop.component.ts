@@ -22,6 +22,7 @@ export class ShopComponent implements OnInit {
   }
 
   showDeviceInfo(deviceId: number): void {
+    console.log(deviceId);
     this.router.navigate(['/measurements/' + deviceId]);
   }
 }

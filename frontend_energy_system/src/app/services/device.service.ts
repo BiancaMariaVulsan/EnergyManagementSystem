@@ -37,20 +37,20 @@ export class DeviceService {
         return this.http.delete<boolean>(environment.deviceApiUrl + 'device/' + id.toString())
     }
 
-    getHistoricalData(date: Date, deviceId: number): Observable<Measurement[]> {
-      // TODO: call the API
-      let measurements = [];
-      let crtValue = 20;
+    // getHistoricalData(date: Date, deviceId: number): Observable<Measurement[]> {
+    //   // TODO: call the API
+    //   let measurements = [];
+    //   let crtValue = 20;
 
-      for (let i = 0; i < 60; i++) {
-        let measurement = new Measurement();
-        measurement.timestamp = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes() + i);
-        measurement.value = crtValue + (Math.random() * 5);
-        measurements.push(measurement);
-      }
+    //   for (let i = 0; i < 60; i++) {
+    //     let measurement = new Measurement();
+    //     measurement.timestamp = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes() + i);
+    //     measurement.value = crtValue + (Math.random() * 5);
+    //     measurements.push(measurement);
+    //   }
 
-      return new Observable(observer => {
-        observer.next(measurements);
-      })
-    }
+    //   return new Observable(observer => {
+    //     observer.next(measurements);
+    //   })
+    // }
 }

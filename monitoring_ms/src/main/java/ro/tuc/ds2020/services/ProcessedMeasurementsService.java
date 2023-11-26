@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class ProcessedMeasurementsService {
@@ -92,8 +92,10 @@ public class ProcessedMeasurementsService {
     }
 
     public List<MeasurementResponse> getMeasurements(MeasurementRequest measurementRequest) {
+        List<ProcessedData> measurements = processedDataRepository.findByDevice(new Device(measurementRequest.getDeviceId()));
+        List<ProcessedData> filteredData = measurements.stream()
+                .filter(d -> DateUtils.truncateDate(d.getDate()).equals(DateUtils.truncateDate(measurementRequest.getDate()))).toList();
 
-        List<ProcessedData> measurements = processedDataRepository.findByDateAndDevice(measurementRequest.getDate(), new Device(measurementRequest.getDeviceId()));
-        return measurements.stream().map(ProcessedDataBuilder::toResponse).collect(Collectors.toList());
+        return filteredData.stream().map(ProcessedDataBuilder::toResponse).collect(Collectors.toList());
     }
 }

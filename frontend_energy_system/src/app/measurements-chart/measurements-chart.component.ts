@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceService } from '../services/device.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { MeasurementService } from '../services/measurement.service';
 
 @Component({
   selector: 'app-measurements-chart',
@@ -16,7 +16,7 @@ export class MeasurementsChartComponent implements OnInit {
   public monitorDayFormatted: string = this.datePipe.transform(this.monitorDay, 'yyyy-MM-dd') ?? '';
   public deviceId: number = 0;
 
-  constructor(private deviceService: DeviceService, private toastr: ToastrService, private datePipe: DatePipe, private route: ActivatedRoute) {
+  constructor(private measurementService: MeasurementService, private toastr: ToastrService, private datePipe: DatePipe, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -32,7 +32,7 @@ export class MeasurementsChartComponent implements OnInit {
   }
 
   private refreshChart(): void {
-    this.deviceService.getHistoricalData(this.monitorDay, this.deviceId).subscribe(result => {
+    this.measurementService.getHistoricalData(this.monitorDay, this.deviceId).subscribe(result => {
       this.labels = result.map(r => this.datePipe.transform(r.timestamp, 'yyyy-MM-dd HH:mm:ss'));
       this.measurements = result.map(r => r.value);
     }, error => {

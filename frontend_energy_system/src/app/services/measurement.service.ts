@@ -6,12 +6,12 @@ import { Measurement } from '../models/measurement.model';
 import { MeasurementRequest } from '../models/measurement-request.model';
 
 @Injectable()
-export class DeviceService {
+export class MeasurementService {
 
     constructor(private http: HttpClient) {}
 
     getHistoricalData(date: Date, deviceId: number): Observable<Measurement[]> {
         const measurementRequest = new MeasurementRequest(date, deviceId);
-        return this.http.post<Measurement[]>(environment.deviceApiUrl + 'measurement', measurementRequest);
+        return this.http.post<Measurement[]>(environment.measurementsApiUrl + 'measurement', measurementRequest);
     }
 }

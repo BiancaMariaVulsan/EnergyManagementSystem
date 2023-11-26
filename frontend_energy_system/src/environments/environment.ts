@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   personApiUrl: 'http://localhost:8080/',
-  deviceApiUrl: 'http://localhost:8000/'
+  deviceApiUrl: 'http://localhost:8000/',
+  measurementsApiUrl: 'http://localhost:8001/'
 };
 
 /*

@@ -24,7 +24,11 @@ public class MeasurementController {
 
     @PostMapping()
     public ResponseEntity<List<MeasurementResponse>> getHistoricalData(@RequestBody MeasurementRequest measurementRequest) {
-        List<MeasurementResponse> measurements = processedMeasurementsService.getMeasurements(measurementRequest);
-        return new ResponseEntity<>(measurements, HttpStatus.CREATED);
+        try {
+            List<MeasurementResponse> measurements = processedMeasurementsService.getMeasurements(measurementRequest);
+            return new ResponseEntity<>(measurements, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -23,7 +23,7 @@
 
                   <div class="form-group-row">
                     <div class="row justify-content-end">
-                        <button (click)="showDeviceInfo()" *ngIf="device.id !== 0" class="btn">
+                        <button (click)="showDeviceInfo(device.id)" *ngIf="device.id !== 0" class="btn">
                             Details
                         </button>
                     </div>
