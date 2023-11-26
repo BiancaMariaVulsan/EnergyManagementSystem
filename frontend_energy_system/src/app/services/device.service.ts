@@ -44,7 +44,7 @@ export class DeviceService {
 
       for (let i = 0; i < 60; i++) {
         let measurement = new Measurement();
-        measurement.timestamp = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1, date.getHours(), date.getMinutes() + i);
+        measurement.timestamp = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes() + i);
         measurement.value = crtValue + (Math.random() * 5);
         measurements.push(measurement);
       }

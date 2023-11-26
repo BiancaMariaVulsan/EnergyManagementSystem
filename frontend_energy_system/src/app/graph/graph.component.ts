@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -15,6 +15,25 @@ export class GraphComponent implements OnInit {
   @Input() public title: string = "";
 
   ngOnInit() {
+    this.setChartDataSet();
+  }
+
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: []
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: true
+  };
+  public lineChartLegend = true;
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.labels = changes['labels'].currentValue ?? [];
+    this.data = changes['data'].currentValue ?? [];
+    this.setChartDataSet();
+  }
+
+  private setChartDataSet(): void {
     this.lineChartData = {
       labels: this.labels,
       datasets: [
@@ -29,14 +48,4 @@ export class GraphComponent implements OnInit {
       ]
     }
   }
-
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [],
-    datasets: []
-  };
-  public lineChartOptions: ChartOptions<'line'> = {
-    responsive: true
-  };
-  public lineChartLegend = true;
-
 }

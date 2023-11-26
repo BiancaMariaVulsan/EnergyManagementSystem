@@ -1,5 +1,5 @@
 <section class="page-header"></section>
-  
+
   <section class="products-shop section">
     <div class="container">
       <div class="row">
@@ -11,7 +11,7 @@
               </div>
             </div>
           </div>
-          
+
           <div *ngIf="devices && devices.length > 0">
             <ul class="device-list">
               <li *ngFor="let device of devices" class="device-item">
@@ -20,6 +20,14 @@
                   <p><strong>Description:</strong> {{ device.description }}</p>
                   <p><strong>Address:</strong> {{ device.address }}</p>
                   <p><strong>Max Hourly Energy Consumption:</strong> {{ device.maxHourlyEnergConsumption }}</p>
+
+                  <div class="form-group-row">
+                    <div class="row justify-content-end">
+                        <button (click)="showDeviceInfo()" *ngIf="device.id !== 0" class="btn">
+                            Details
+                        </button>
+                    </div>
+                </div>
                 </div>
               </li>
             </ul>
@@ -27,7 +35,7 @@
           <div *ngIf="!devices || devices.length === 0">
             <p>No devices available.</p>
           </div>
-   
+
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../services/device.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-measurements-chart',
@@ -11,12 +12,27 @@ import { DatePipe } from '@angular/common';
 export class MeasurementsChartComponent implements OnInit {
   public labels: string[] = [];
   public measurements: number[] = [];
+  public monitorDay: Date = new Date();
+  public monitorDayFormatted: string = this.datePipe.transform(this.monitorDay, 'yyyy-MM-dd') ?? '';
+  public deviceId: number = 0;
 
-  constructor(private deviceService: DeviceService, private toastr: ToastrService, private datePipe: DatePipe) { }
+  constructor(private deviceService: DeviceService, private toastr: ToastrService, private datePipe: DatePipe, private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
-    const crtDate = new Date();
-    this.deviceService.getHistoricalData(crtDate, 1).subscribe(result => {
+    this.route.params.subscribe(params => {
+      this.deviceId = Number.parseInt(this.route.snapshot.paramMap.get('id') ?? '0');
+      this.refreshChart();
+    });
+  }
+
+  public onMonitorDayChange() {
+    this.monitorDay = new Date(this.monitorDayFormatted);
+    this.refreshChart();
+  }
+
+  private refreshChart(): void {
+    this.deviceService.getHistoricalData(this.monitorDay, this.deviceId).subscribe(result => {
       this.labels = result.map(r => this.datePipe.transform(r.timestamp, 'yyyy-MM-dd HH:mm:ss'));
       this.measurements = result.map(r => r.value);
     }, error => {
@@ -24,5 +40,4 @@ export class MeasurementsChartComponent implements OnInit {
       this.toastr.error("Could not fetch measurements, please try again later!");
     });
   }
-
 }

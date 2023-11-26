@@ -3,6 +3,7 @@ import { DeviceService } from '../services/device.service';
 import { Device } from '../models/device.model';
 import { ToastrService } from 'ngx-toastr';
 import { Message } from '@stomp/stompjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -14,7 +15,7 @@ export class ShopComponent implements OnInit {
   devices: Device[];
   private topicSubscription: any;
 
-  constructor(private deviceService: DeviceService,private toastr: ToastrService) { }
+  constructor(private deviceService: DeviceService,private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.deviceService.getDevicesByUser(localStorage.getItem('eshop-userid')).subscribe(p => {
@@ -25,8 +26,12 @@ export class ShopComponent implements OnInit {
     //     this.toastr.warning(message.body);
     // });
     }
-  
+
     ngOnDestroy() {
       // this.topicSubscription.unsubscribe();
+    }
+
+    showDeviceInfo(deviceId: number): void {
+      this.router.navigate(['/measurements/' + deviceId]);
     }
 }

@@ -1,4 +1,18 @@
-<div id="MeasurementsWrapper">
-  <app-graph *ngIf="measurements.length > 0" [labels]="labels" [data]="measurements" [title]="'Measurements'"></app-graph>
-</div>
+<section class="page-header"></section>
+
+<section class="products-shop section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="row align-items-center">
+          <div class="col-lg-12 mb-4 mb-lg-0">
+            <app-graph *ngIf="measurements.length > 0" [labels]="labels" [data]="measurements" [title]="'Measurements'"></app-graph>
+            <input name="monitorDay" type="date" id="monitorDay" class="form-control"
+                          placeholder="Monitor Day" [(ngModel)]="monitorDayFormatted" (ngModelChange)="onMonitorDayChange()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 

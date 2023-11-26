@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/devices', component: AdminDevicesComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
-  {path: 'measurements', component: MeasurementsChartComponent } // TODO: authorize this
+  {path: 'measurements/:id', component: MeasurementsChartComponent } // TODO: authorize this
 ];
 
 @NgModule({
