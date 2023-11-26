@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/person")
+@RequestMapping(value = "/measurement")
 public class MeasurementController {
 
     private final ProcessedMeasurementsService processedMeasurementsService;
@@ -23,7 +23,7 @@ public class MeasurementController {
     }
 
     @PostMapping()
-    public ResponseEntity<List<MeasurementResponse>> insertMeasurement(@RequestBody MeasurementRequest measurementRequest) {
+    public ResponseEntity<List<MeasurementResponse>> getHistoricalData(@RequestBody MeasurementRequest measurementRequest) {
         List<MeasurementResponse> measurements = processedMeasurementsService.getMeasurements(measurementRequest);
         return new ResponseEntity<>(measurements, HttpStatus.CREATED);
     }

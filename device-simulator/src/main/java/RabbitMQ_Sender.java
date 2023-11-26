@@ -23,7 +23,7 @@ public class RabbitMQ_Sender {
             // Create a JSON message
             Measurement measurement = new Measurement();
             measurement.setTimestamp(new Date());
-            measurement.setDeviceId(1);
+            measurement.setDeviceId(53);
             measurement.setValue(value);
 
             // Convert Measurement object to JSON

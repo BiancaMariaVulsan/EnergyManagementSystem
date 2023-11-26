@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginUserRequest, UserRole } from '../models/loginuser.model';
+import { LoginUserRequest } from '../models/loginuser.model';
 import { AccountService } from '../services/account.service';
+import { WebSocketSrvice } from '../services/websockets.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +12,7 @@ import { AccountService } from '../services/account.service';
 export class LoginComponent implements OnInit {
 
   loginUser: LoginUserRequest;
-  constructor(private accountService: AccountService, private router: Router) { }
+  constructor(private accountService: AccountService, private router: Router, private webSocketService: WebSocketSrvice) { }
 
   ngOnInit(): void {
     this.loginUser = new LoginUserRequest();
@@ -34,9 +36,10 @@ export class LoginComponent implements OnInit {
       } else if (res.role.name == "User") {
         this.router.navigate(["/shop"]);
       }
+      this.webSocketService.connect();
+
     }, _ => {
       alert('Bad credentials, please try again.');
     });
   }
-
 }
