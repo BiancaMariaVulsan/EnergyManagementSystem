@@ -53,7 +53,7 @@ public class ProcessedMeasurementsService {
                 Device device = deviceRepository.findById(processedData.getDevie().getDeviceId());
                 deviceMeasurements.clear();
                 if (processedData.getTotalConsumption() > device.getMaxHourlyEnergConsumption()) {
-                    sendNotificationAsync(device.getUserId(), deviceId, "High energy consumption alert for!");
+                    sendNotificationAsync(device.getUserId(), deviceId, "High energy consumption alert for device ");
                 }
             }
         } else {

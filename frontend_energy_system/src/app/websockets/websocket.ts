@@ -2,12 +2,15 @@ import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { WebSocketSrvice } from '../services/websockets.service';
 import { NotificationMsg } from '../models/notification.model';
+import { DeviceService } from '../services/device.service';
+import { Device } from '../models/device.model';
 
 export class WebSocketAPI {
     webSocketEndPoint: string = 'http://localhost:8001/ws';
     topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
-    constructor(private websocketService: WebSocketSrvice){
+    device: Device;
+    constructor(private websocketService: WebSocketSrvice, private deviceService: DeviceService){
     }
     _connect() {
         console.log("Initialize WebSocket Connection");
@@ -23,8 +26,6 @@ export class WebSocketAPI {
     };
 
     _disconnect() {
-        let ws = new SockJS(this.webSocketEndPoint);
-        this.stompClient = Stomp.over(ws);
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
         }
@@ -49,7 +50,6 @@ export class WebSocketAPI {
     }
 
     onMessageReceived(message) {
-        console.log("Message Recieved from Server :: " + message);
         const parsedBody = JSON.parse(message.body);
 
         // Accessing the 'body' and 'id' fields
@@ -59,7 +59,9 @@ export class WebSocketAPI {
         // Now you can use 'body' and 'id' as needed
         console.log("Parsed Body:", notif);
         console.log("Device Id:", deviceId);
+
+        this.device = this.deviceService.findDevice(deviceId);
         
-        this.websocketService.handleMessage(new NotificationMsg(notif, deviceId));
+        this.websocketService.handleMessage(notif, this.device.description);
     }
 }

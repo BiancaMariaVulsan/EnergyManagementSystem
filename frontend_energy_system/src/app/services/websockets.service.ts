@@ -1,17 +1,16 @@
 import { Injectable } from "@angular/core";
 import { WebSocketAPI } from "../websockets/websocket";
 import { ToastrService } from "ngx-toastr";
-import { NotificationMsg } from "../models/notification.model";
+import { DeviceService } from "./device.service";
 
 @Injectable ()
 export class WebSocketSrvice {
     
     webSocketAPI: WebSocketAPI;
-    notification: NotificationMsg;
     name: string;
 
-    public constructor(private toasterService: ToastrService) {
-        this.webSocketAPI = new WebSocketAPI(this);
+    public constructor(private toasterService: ToastrService, private deviceService: DeviceService) {
+        this.webSocketAPI = new WebSocketAPI(this, deviceService);
     }
 
     public connect(){
@@ -26,8 +25,7 @@ export class WebSocketSrvice {
         this.webSocketAPI._send(this.name);
     }
 
-    handleMessage(notification: NotificationMsg){
-        this.notification = notification;
-        this.toasterService.warning(this.notification.message + " " + this.notification.deviceId);
+    handleMessage(msg, name){
+        this.toasterService.warning(msg + name);
     }
 }
