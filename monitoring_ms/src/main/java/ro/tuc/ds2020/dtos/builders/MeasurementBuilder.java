@@ -1,6 +1,5 @@
 package ro.tuc.ds2020.dtos.builders;
 
-import ro.tuc.ds2020.contracts.MeasurementResponse;
 import ro.tuc.ds2020.dtos.MeasurementDTO;
 import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Measurement;

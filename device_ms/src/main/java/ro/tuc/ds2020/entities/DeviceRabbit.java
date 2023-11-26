@@ -1,30 +1,25 @@
 package ro.tuc.ds2020.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 
-@Entity
-public class Device {
-    @Id
-    @Column(name = "deviceId", nullable = false)
+public class DeviceRabbit {
     private int deviceId;
-    @Column(name = "userId", nullable = false)
     private int userId;
-    @Column(name = "maxHourlyEnergConsumption", nullable = false)
     private double maxHourlyEnergConsumption;
 
-    public Device(int deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public Device(int deviceId, int userId, double maxHourlyEnergConsumption) {
+    public DeviceRabbit(int deviceId, int userId, double maxHourlyEnergConsumption) {
         this.deviceId = deviceId;
         this.userId = userId;
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
     }
 
-    public Device() {
+    public DeviceRabbit(int deviceId) {
+        this.deviceId = deviceId;
     }
 
+    public DeviceRabbit() {
+    }
 
     public int getDeviceId() {
         return deviceId;

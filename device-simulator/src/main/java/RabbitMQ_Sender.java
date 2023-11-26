@@ -33,6 +33,8 @@ public class RabbitMQ_Sender {
             // Publish the byte array
             channel.basicPublish("", "measurements-queue", null, message.getBytes());
             System.out.println(" [x] Sent value: " + value);
+        } catch (Exception e) {
+            System.out.println(" [x] Error sending value: " + value);
         }
     }
 }

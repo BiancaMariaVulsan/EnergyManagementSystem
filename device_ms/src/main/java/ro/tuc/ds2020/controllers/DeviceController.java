@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.tuc.ds2020.entities.DeviceRabbit;
+import ro.tuc.ds2020.entities.Message;
+import ro.tuc.ds2020.services.RabbitMqSender;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
-import ro.tuc.ds2020.dtos.DeviceDTO;
 import ro.tuc.ds2020.dtos.DeviceDetailsDTO;
+import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
 import ro.tuc.ds2020.services.DeviceService;
 
 import javax.validation.Valid;
@@ -34,10 +37,13 @@ public class DeviceController {
     @PostMapping()
     public ResponseEntity<Integer> insertDevice(@Valid @RequestBody DeviceDetailsDTO deviceDTO) {
         int deviceID = deviceService.insert(deviceDTO);
+        try {
+            RabbitMqSender.send(new Message(DeviceBuilder.toDeviceRabbit(deviceDTO), "insert"));
+        } catch (Exception e) {
+            System.out.println("Error sending to RabbitMQ");
+        }
         return new ResponseEntity<>(deviceID, HttpStatus.CREATED);
     }
-
-    // post cu insert person => tabela de user cu userid
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<DeviceDetailsDTO>> getDevice(@PathVariable("id") Integer personId) {
@@ -49,6 +55,11 @@ public class DeviceController {
     public ResponseEntity<Boolean> updateDevice(@PathVariable int id, @Valid @RequestBody DeviceDetailsDTO updatedDeviceDTO) {
         try {
             deviceService.update(id, updatedDeviceDTO);
+            try {
+                RabbitMqSender.send(new Message(DeviceBuilder.toDeviceRabbit(updatedDeviceDTO), "update"));
+            } catch (Exception e) {
+                System.out.println("Error sending to RabbitMQ");
+            }
             return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             // Handle the case where the device with the given ID was not found
@@ -64,6 +75,12 @@ public class DeviceController {
         try {
             boolean deleted = deviceService.delete(id);
             if (deleted) {
+                try {
+                    DeviceRabbit deviceRabbit = new DeviceRabbit(id);
+                    RabbitMqSender.send(new Message(deviceRabbit, "delete"));
+                } catch (Exception e) {
+                    System.out.println("Error sending to RabbitMQ");
+                }
                 return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
             } else {
                 // Handle the case where the device with the given ID was not found

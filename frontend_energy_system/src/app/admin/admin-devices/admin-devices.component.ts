@@ -76,6 +76,7 @@ export class AdminDevicesComponent implements OnInit {
   }
 
   findClientById(id: number): string {
-    return this.clients.find(client => client.id === id).username;
+    const client = this.clients.find(client => client.id === id);
+    return client?.username;
   }
 }

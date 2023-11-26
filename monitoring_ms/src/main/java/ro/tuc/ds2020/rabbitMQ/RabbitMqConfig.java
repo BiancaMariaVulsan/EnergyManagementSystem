@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import ro.tuc.ds2020.rabbitMQ.QueueConfig;
-import ro.tuc.ds2020.rabbitMQ.Receiver;
+import ro.tuc.ds2020.services.DeviceService;
 import ro.tuc.ds2020.services.MeasurementsService;
 import ro.tuc.ds2020.services.ProcessedMeasurementsService;
 
@@ -18,21 +17,25 @@ import java.util.TimerTask;
 @Component
 public class RabbitMqConfig implements ApplicationListener<ContextRefreshedEvent> {
 
-    Receiver receiver = new Receiver();
     QueueConfig queueConfig = new QueueConfig();
 
     MeasurementsService measurementsService;
     ProcessedMeasurementsService processedMeasurementsService;
 
+    DeviceService deviceService;
+
     @Autowired
-    public RabbitMqConfig(MeasurementsService measurementsService, ProcessedMeasurementsService processedMeasurementsService) {
+    public RabbitMqConfig(MeasurementsService measurementsService,
+                          ProcessedMeasurementsService processedMeasurementsService,
+                          DeviceService deviceService) {
         this.measurementsService = measurementsService;
         this.processedMeasurementsService = processedMeasurementsService;
+        this.deviceService = deviceService;
     }
 
     void init() throws URISyntaxException, NoSuchAlgorithmException, KeyManagementException {
         queueConfig.setFactory();
-        readMessagesFromMonitoringQueue("measurements-queue");
+        readMessagesFromMonitoringQueue();
     }
 
     @Override
@@ -50,11 +53,12 @@ public class RabbitMqConfig implements ApplicationListener<ContextRefreshedEvent
         }
     }
 
-    private void readMessagesFromMonitoringQueue(String queueName) {
+    private void readMessagesFromMonitoringQueue() {
         TimerTask repeatedTask = new TimerTask() {
             public void run() {
                 try {
                     Receiver.receive(queueConfig.getFactory(), measurementsService, processedMeasurementsService);
+                    ReceiverDeviceQ.receive(queueConfig.getFactory(), deviceService);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

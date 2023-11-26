@@ -3,6 +3,7 @@ package ro.tuc.ds2020.dtos.builders;
 import ro.tuc.ds2020.dtos.DeviceDTO;
 import ro.tuc.ds2020.dtos.DeviceDetailsDTO;
 import ro.tuc.ds2020.entities.Device;
+import ro.tuc.ds2020.entities.DeviceRabbit;
 import ro.tuc.ds2020.entities.Person;
 
 public class DeviceBuilder {
@@ -22,5 +23,9 @@ public class DeviceBuilder {
         return new Device(deviceDetailsDTO.getDescription(),
                 deviceDetailsDTO.getAddress(),
                 deviceDetailsDTO.getMaxHourlyEnergConsumption(), new Person(deviceDetailsDTO.getPersonId()));
+    }
+
+    public static DeviceRabbit toDeviceRabbit(DeviceDetailsDTO device) {
+        return new DeviceRabbit(device.getId(), device.getPersonId(), device.getMaxHourlyEnergConsumption());
     }
 }

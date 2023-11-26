@@ -1,30 +1,22 @@
-package ro.tuc.ds2020.entities;
+package ro.tuc.ds2020.dtos;
 
-import jakarta.persistence.*;
-
-@Entity
-public class Device {
-    @Id
-    @Column(name = "deviceId", nullable = false)
+public class DeviceDTO {
     private int deviceId;
-    @Column(name = "userId", nullable = false)
     private int userId;
-    @Column(name = "maxHourlyEnergConsumption", nullable = false)
     private double maxHourlyEnergConsumption;
 
-    public Device(int deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public Device(int deviceId, int userId, double maxHourlyEnergConsumption) {
+    public DeviceDTO(int deviceId, int userId, double maxHourlyEnergConsumption) {
         this.deviceId = deviceId;
         this.userId = userId;
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
     }
 
-    public Device() {
+    public DeviceDTO(int deviceId) {
+        this.deviceId = deviceId;
     }
 
+    public DeviceDTO() {
+    }
 
     public int getDeviceId() {
         return deviceId;

@@ -2,7 +2,6 @@ package ro.tuc.ds2020.rabbitMQ;
 
 import com.google.gson.Gson;
 import com.rabbitmq.client.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.dtos.MeasurementDTO;
 import ro.tuc.ds2020.services.MeasurementsService;
@@ -45,7 +44,7 @@ public class Receiver {
                         }
                     });
 
-            System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+            System.out.println(" [*] Waiting for messages from device simulator. To exit press CTRL+C");
         } catch (Exception e) {
             e.printStackTrace();
         }
