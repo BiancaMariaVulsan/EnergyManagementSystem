@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.entities.DeviceRabbit;
-import ro.tuc.ds2020.entities.Message;
 import ro.tuc.ds2020.services.RabbitMqSender;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.DeviceDetailsDTO;
@@ -38,7 +37,7 @@ public class DeviceController {
     public ResponseEntity<Integer> insertDevice(@Valid @RequestBody DeviceDetailsDTO deviceDTO) {
         int deviceID = deviceService.insert(deviceDTO);
         try {
-            RabbitMqSender.send(new Message(DeviceBuilder.toDeviceRabbit(deviceDTO), "insert"));
+            RabbitMqSender.send(DeviceBuilder.toDeviceRabbit(deviceDTO, "insert"));
         } catch (Exception e) {
             System.out.println("Error sending to RabbitMQ");
         }
@@ -56,7 +55,7 @@ public class DeviceController {
         try {
             deviceService.update(id, updatedDeviceDTO);
             try {
-                RabbitMqSender.send(new Message(DeviceBuilder.toDeviceRabbit(updatedDeviceDTO), "update"));
+                RabbitMqSender.send(DeviceBuilder.toDeviceRabbit(updatedDeviceDTO, "update"));
             } catch (Exception e) {
                 System.out.println("Error sending to RabbitMQ");
             }
@@ -76,8 +75,7 @@ public class DeviceController {
             boolean deleted = deviceService.delete(id);
             if (deleted) {
                 try {
-                    DeviceRabbit deviceRabbit = new DeviceRabbit(id);
-                    RabbitMqSender.send(new Message(deviceRabbit, "delete"));
+                    RabbitMqSender.send(new DeviceRabbit(id, "delete"));
                 } catch (Exception e) {
                     System.out.println("Error sending to RabbitMQ");
                 }

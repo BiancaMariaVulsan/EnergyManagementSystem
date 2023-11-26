@@ -4,15 +4,18 @@ public class DeviceDTO {
     private int deviceId;
     private int userId;
     private double maxHourlyEnergConsumption;
+    private String operation;
 
-    public DeviceDTO(int deviceId, int userId, double maxHourlyEnergConsumption) {
+    public DeviceDTO(int deviceId, int userId, double maxHourlyEnergConsumption, String operation) {
         this.deviceId = deviceId;
         this.userId = userId;
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
+        this.operation = operation;
     }
 
-    public DeviceDTO(int deviceId) {
+    public DeviceDTO(int deviceId, String operation) {
         this.deviceId = deviceId;
+        this.operation = operation;
     }
 
     public DeviceDTO() {
@@ -40,5 +43,13 @@ public class DeviceDTO {
 
     public void setMaxHourlyEnergConsumption(double maxHourlyEnergConsumption) {
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 }

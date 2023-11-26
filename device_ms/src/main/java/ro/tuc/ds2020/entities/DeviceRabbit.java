@@ -7,15 +7,18 @@ public class DeviceRabbit {
     private int deviceId;
     private int userId;
     private double maxHourlyEnergConsumption;
+    private String operation;
 
-    public DeviceRabbit(int deviceId, int userId, double maxHourlyEnergConsumption) {
+    public DeviceRabbit(int deviceId, int userId, double maxHourlyEnergConsumption, String operation) {
         this.deviceId = deviceId;
         this.userId = userId;
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
+        this.operation = operation;
     }
 
-    public DeviceRabbit(int deviceId) {
+    public DeviceRabbit(int deviceId, String operation) {
         this.deviceId = deviceId;
+        this.operation = operation;
     }
 
     public DeviceRabbit() {
@@ -43,5 +46,13 @@ public class DeviceRabbit {
 
     public void setMaxHourlyEnergConsumption(double maxHourlyEnergConsumption) {
         this.maxHourlyEnergConsumption = maxHourlyEnergConsumption;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 }

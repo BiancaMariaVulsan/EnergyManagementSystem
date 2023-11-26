@@ -57,7 +57,7 @@ public class RabbitMqConfig implements ApplicationListener<ContextRefreshedEvent
         TimerTask repeatedTask = new TimerTask() {
             public void run() {
                 try {
-                    Receiver.receive(queueConfig.getFactory(), measurementsService, processedMeasurementsService);
+//                    Receiver.receive(queueConfig.getFactory(), measurementsService, processedMeasurementsService);
                     ReceiverDeviceQ.receive(queueConfig.getFactory(), deviceService);
                 } catch (Exception e) {
                     throw new RuntimeException(e);

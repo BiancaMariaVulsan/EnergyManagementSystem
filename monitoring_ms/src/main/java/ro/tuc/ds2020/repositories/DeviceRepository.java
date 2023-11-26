@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ro.tuc.ds2020.entities.Device;
 
 public interface DeviceRepository extends JpaRepository<Device, Integer> {
-    Device findById(int id);
+    Device findById(int deviceId);
 }

@@ -25,7 +25,7 @@ public class DeviceBuilder {
                 deviceDetailsDTO.getMaxHourlyEnergConsumption(), new Person(deviceDetailsDTO.getPersonId()));
     }
 
-    public static DeviceRabbit toDeviceRabbit(DeviceDetailsDTO device) {
-        return new DeviceRabbit(device.getId(), device.getPersonId(), device.getMaxHourlyEnergConsumption());
+    public static DeviceRabbit toDeviceRabbit(DeviceDetailsDTO device, String operation) {
+        return new DeviceRabbit(device.getId(), device.getPersonId(), device.getMaxHourlyEnergConsumption(), operation);
     }
 }
