@@ -35,9 +35,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/admin"]);
       } else if (res.role.name == "User") {
         this.router.navigate(["/shop"]);
+        this.webSocketService.connect();
       }
-      this.webSocketService.connect();
-
     }, _ => {
       alert('Bad credentials, please try again.');
     });

@@ -1,7 +1,6 @@
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { WebSocketSrvice } from '../services/websockets.service';
-import { NotificationMsg } from '../models/notification.model';
 import { DeviceService } from '../services/device.service';
 import { Device } from '../models/device.model';
 

@@ -46,14 +46,14 @@ public class ProcessedMeasurementsService {
 
             deviceMeasurements.add(measurement.getValue());
 
-            if (deviceMeasurements.size() == 5) {
+            if (deviceMeasurements.size() == 10) {
                 Date endDate = measurement.getTimestamp();
                 List<Double> copyOfMeasurements = new ArrayList<>(deviceMeasurements);
                 ProcessedData processedData = computeHourlyConsumption(deviceId, endDate, copyOfMeasurements);
                 Device device = deviceRepository.findById(processedData.getDevie().getDeviceId());
                 deviceMeasurements.clear();
                 if (processedData.getTotalConsumption() > device.getMaxHourlyEnergConsumption()) {
-                    sendNotificationAsync(device.getUserId(), deviceId, "High energy consumption alert for device ");
+                    sendNotification(device.getUserId(), deviceId, "High energy consumption alert for device ");
                 }
             }
         } else {
@@ -77,10 +77,6 @@ public class ProcessedMeasurementsService {
 
     public void insert(ProcessedData processedData) {
         processedDataRepository.save(processedData);
-    }
-
-    private CompletableFuture<Void> sendNotificationAsync(int userId, int deviceId, String message) {
-        return CompletableFuture.runAsync(() -> sendNotification(userId, deviceId, message));
     }
 
     private void sendNotification(int userId, int deviceId, String message) {

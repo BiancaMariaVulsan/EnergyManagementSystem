@@ -28,6 +28,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { WebSocketSrvice } from './services/websockets.service';
 import { MeasurementService } from './services/measurement.service';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -53,6 +54,7 @@ export function tokenGetter() {
     MeasurementsChartComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
