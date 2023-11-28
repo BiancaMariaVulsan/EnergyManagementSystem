@@ -5,24 +5,24 @@ import java.util.Objects;
 
 public class MeasurementDTO {
 
-    private Date timestamp;
+    private long timestamp;
     private int deviceId;
     private double value;
 
     public MeasurementDTO() {
     }
 
-    public MeasurementDTO(Date timestamp, double value, int device) {
+    public MeasurementDTO(long timestamp, double value, int device) {
         this.timestamp = timestamp;
         this.value = value;
         this.deviceId = device;
     }
 
-    public Date getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -9,32 +9,40 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
+import java.io.*;
 
 public class MeasurementsReader {
 
     private static final String CSV_FILE_PATH = "./src/main/resources/sensor.csv";
 
     public static void main(String[] args) {
+        // Load the date from the text file
+        RabbitMQ_Sender.timestamp = loadDateFromFile(args[0] + ".txt");
+
         MeasurementsReader csvReader = new MeasurementsReader();
         csvReader.readCsvValues(Integer.parseInt(args[0]));
     }
 
-    public void readCsvValues(int deviceId) {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new ReadCsvTask(deviceId), 0, 1000); // Read one value per second
+    private static long loadDateFromFile(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            // Read the timestamp from the file
+            String timestampString = reader.readLine();
 
-        // Stop after 10 seconds
-         try {
-             Thread.sleep(10000);
-             timer.cancel();
-         } catch (InterruptedException e) {
-             e.printStackTrace();
-         }
+            // Parse the timestamp to create a Date object
+            return Long.parseLong(timestampString);
+        } catch (IOException | NumberFormatException e) {
+            return System.currentTimeMillis();
+        }
     }
 
-    private class ReadCsvTask extends TimerTask {
-        private Path csvFilePath = Paths.get(CSV_FILE_PATH);
-        private int deviceId;
+    public void readCsvValues(int deviceId) {
+        Timer timer = new Timer();
+        timer.schedule(new ReadCsvTask(deviceId), 0, 10000); // Read one value per 10 second
+    }
+
+    private static class ReadCsvTask extends TimerTask {
+        private final Path csvFilePath = Paths.get(CSV_FILE_PATH);
+        private final int deviceId;
         public ReadCsvTask(int deviceId) {
             this.deviceId = deviceId;
         }
@@ -54,16 +62,13 @@ public class MeasurementsReader {
 
                     // Send the double value to the RabbitMQ queue
                     RabbitMQ_Sender.send(doubleValue, deviceId);
+
+                    Thread.sleep(10000);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            } catch (KeyManagementException e) {
-                throw new RuntimeException(e);
-            } catch (TimeoutException e) {
+            } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException | TimeoutException |
+                     InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }

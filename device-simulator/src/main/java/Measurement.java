@@ -1,11 +1,11 @@
 import java.util.Date;
 
 public class Measurement {
-    private Date timestamp;
+    private long timestamp;
     private int deviceId;
     private double value;
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -46,8 +46,8 @@ public class PersonController {
         RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the device service's API endpoint
-        String deviceServiceUrl = "http://localhost:8000/person";
-//        String deviceServiceUrl = "http://172.16.0.5:8000/person";
+//        String deviceServiceUrl = "http://localhost:8000/person";
+        String deviceServiceUrl = "http://172.16.0.5:8000/person";
 
         // Create headers with the appropriate content type
         HttpHeaders headers = new HttpHeaders();
