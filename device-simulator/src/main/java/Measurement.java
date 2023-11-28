@@ -1,5 +1,3 @@
-import java.util.Date;
-
 public class Measurement {
     private long timestamp;
     private int deviceId;

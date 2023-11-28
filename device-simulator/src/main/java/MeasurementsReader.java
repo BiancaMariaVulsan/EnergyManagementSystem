@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
-import java.io.*;
 
 public class MeasurementsReader {
 
