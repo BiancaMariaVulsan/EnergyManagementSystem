@@ -1,0 +1,28 @@
+<div class="account section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="login-form border p-5">
+            <div class="text-center heading">
+              <h2 class="mb-2">Login</h2>
+              <p class="lead">Don’t have an account? <a href="/signup">Create a free account</a></p>
+            </div>
+  
+            <form action="#">
+              <div class="form-group mb-4">
+                <label for="#">Enter Username or Email</label>
+                <input [(ngModel)]="loginUser.username" [ngModelOptions]="{standalone: true}" type="text" class="form-control" placeholder="Enter Email" required>
+              </div>
+              <div class="form-group">
+                <label for="#">Enter Password</label>
+                <!-- <a class="float-right" href="">Forget password?</a> -->
+                <input [(ngModel)]="loginUser.password" [ngModelOptions]="{standalone: true}" type="password" class="form-control" placeholder="Enter Password" required> 
+              </div>
+  
+              <button (click)="onLoginClicked()" class="btn btn-main mt-3 btn-block">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

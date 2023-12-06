@@ -1,0 +1,56 @@
+<div class="form froup-row">
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Description</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control text-input" [(ngModel)]="device.description"
+            placeholder="Enter Device Description">
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Max Energy</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control text-input" [(ngModel)]="device.maxHourlyEnergConsumption"
+            placeholder="Enter Device Maximum Energy Consumption">
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Address</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control text-input" [(ngModel)]="device.address"
+            placeholder="Enter Device Address">
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Client</label>
+        <div class="col-sm-9">
+            <div class="btn-group">
+                <button type="button" class="modal-button dropdown-toggle form-control text-input" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{clientDropdownText}}
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" *ngFor="let client of clients" (click)="onPickClient(client)">{{client.firstName}} {{client.lastName}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group-row">
+    <div class="row justify-content-end">
+        <button (click)="addDevice()" *ngIf="device.id === 0" class="btn"
+            [ngClass]="{ 'disabled-control' : !completedFields() }">
+            Add
+        </button>
+
+        <button (click)="updateDevice()" *ngIf="device.id !== 0" class="btn"
+            data-dismiss="modal"
+            [ngClass]="{ 'disabled-control' : !completedFields() }">
+            Update
+        </button>
+    </div>
+</div>
+

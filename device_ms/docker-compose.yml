@@ -1,0 +1,28 @@
+version: '3'
+services:
+  postgres:
+    container_name: postgres-device
+    image: postgres:16-alpine3.18
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=device-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Vulsan2001
+    volumes:
+      - device:/var/lib/postgresql/data
+  app:
+    container_name: devices
+    image: devices
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/device-db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Vulsan2001
+    links:
+      - postgres
+
+volumes:
+  device:
