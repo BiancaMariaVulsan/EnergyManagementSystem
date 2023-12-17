@@ -52,6 +52,7 @@ public class PersonController {
         // Create headers with the appropriate content type
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + loginResponse.getToken());
 
 
         // Create a request entity with the id as the request body and headers
@@ -83,6 +84,7 @@ public class PersonController {
         // Create headers with the appropriate content type
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + loginResponse.getToken());
 
 
         // Create a request entity with the id as the request body and headers
@@ -126,8 +128,8 @@ public class PersonController {
             RestTemplate restTemplate = new RestTemplate();
 
             // Define the URL of the device service's API endpoint
-//             String deviceServiceUrl = "http://localhost:8000/person/" + id;
-            String deviceServiceUrl = "http://172.16.0.5:8000/person/" + id;
+             String deviceServiceUrl = "http://localhost:8000/person/" + id;
+//            String deviceServiceUrl = "http://172.16.0.5:8000/person/" + id;
 
             // Create a request entity
             RequestEntity<?> requestEntity = RequestEntity.delete(new URI(deviceServiceUrl)).build();
