@@ -29,7 +29,8 @@ public class SecurityConfig {
                     .authorizeHttpRequests((requests) -> requests
                             .requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
                             .requestMatchers(antMatcher("/person/login")).permitAll()
-                            .anyRequest().permitAll())
+                            .requestMatchers(antMatcher("/person/signup")).permitAll()
+                            .anyRequest().authenticated())
                     .csrf(AbstractHttpConfigurer::disable)
                     .cors(AbstractHttpConfigurer::disable)
                     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

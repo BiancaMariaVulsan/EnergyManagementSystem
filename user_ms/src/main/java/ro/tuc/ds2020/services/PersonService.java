@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.configs.JwtService;
@@ -109,14 +108,4 @@ public class PersonService {
         return passwordEncoder.matches(inputPassword, storedPassword);
     }
 
-    public UserDetails loadUserByUsername(String username) {
-        Optional<Person> person = personRepository.findByUsername(username);
-
-        if (person.isPresent()) {
-            return person.get();
-        } else {
-            LOGGER.debug("User with username {} not found", username);
-            throw new ResourceNotFoundException(Person.class.getSimpleName());
-        }
-    }
 }

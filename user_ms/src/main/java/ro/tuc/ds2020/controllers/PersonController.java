@@ -6,18 +6,11 @@ import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ro.tuc.ds2020.configs.JwtService;
 import ro.tuc.ds2020.contracts.requests.LoginRequest;
 import ro.tuc.ds2020.contracts.responses.LoginResponse;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
-import ro.tuc.ds2020.dtos.AuthenticationResponse;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
 import ro.tuc.ds2020.services.PersonService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -29,14 +22,10 @@ import java.util.List;
 public class PersonController {
 
     private final PersonService personService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
 
     @Autowired
-    public PersonController(PersonService personService, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public PersonController(PersonService personService) {
         this.personService = personService;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
     }
 
     @GetMapping()
@@ -57,8 +46,39 @@ public class PersonController {
         RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the device service's API endpoint
-//        String deviceServiceUrl = "http://localhost:8000/person";
-        String deviceServiceUrl = "http://172.16.0.5:8000/person";
+        String deviceServiceUrl = "http://localhost:8000/person";
+//        String deviceServiceUrl = "http://172.16.0.5:8000/person";
+
+        // Create headers with the appropriate content type
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        // Create a request entity with the id as the request body and headers
+        HttpEntity<?> requestEntity = new HttpEntity<>(loginResponse.getId(), headers);
+        ResponseEntity<Boolean> response =  restTemplate.exchange(deviceServiceUrl, HttpMethod.POST, requestEntity, Boolean.class);
+
+        if (response.getBody() == Boolean.TRUE) {
+            return new ResponseEntity<>(loginResponse, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/signup")
+    public ResponseEntity<LoginResponse> signUp(@Valid @RequestBody PersonDetailsDTO personDetailsDTO) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(personDetailsDTO.getPassword());
+        personDetailsDTO.setPassword(hashedPassword);
+        LoginResponse loginResponse = personService.insert(personDetailsDTO);
+
+        // Send a request to the device service to create a new person
+        // Create a RestTemplate instance to make the HTTP request
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Define the URL of the device service's API endpoint
+        String deviceServiceUrl = "http://localhost:8000/person";
+//        String deviceServiceUrl = "http://172.16.0.5:8000/person";
 
         // Create headers with the appropriate content type
         HttpHeaders headers = new HttpHeaders();
@@ -130,29 +150,9 @@ public class PersonController {
         }
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-//        LoginResponse loginResponse = personService.login(loginRequest.getUsername(), loginRequest.getPassword());
-//        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
-//    }
-
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest) throws Exception {
-        // Authenticate the user
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()
-                )
-        );
-
-        // Update SecurityContext
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // Generate JWT
-        UserDetails userDetails = personService.loadUserByUsername(authenticationRequest.getUsername());
-        String jwt = jwtService.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        LoginResponse loginResponse = personService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 }
