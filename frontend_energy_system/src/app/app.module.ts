@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -29,6 +29,7 @@ import { DatePipe } from '@angular/common';
 import { WebSocketSrvice } from './services/websockets.service';
 import { MeasurementService } from './services/measurement.service';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { AuthInterceptor } from './services/interceptor.service';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -73,7 +74,13 @@ export function tokenGetter() {
     }),
     NgChartsModule
   ],
-  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice, MeasurementService],
+  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice, MeasurementService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
