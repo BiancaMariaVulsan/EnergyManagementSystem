@@ -8,13 +8,14 @@ export class AuthInterceptor implements HttpInterceptor {
     console.log('Interceptor is executing...');
     const token = localStorage.getItem("eshop-jwt");
     const isLoginRequest = request.url.includes('/person/login');
+    const isSignUpRequest = request.url.includes('/person/signup');
 
-    if (!isLoginRequest) {
+    if (!isLoginRequest && !isSignUpRequest) {
         // Clone the request and add the token to the headers
         request = request.clone({
-        setHeaders: {
-            Authorization: `Bearer ${token}`
-        }
+            setHeaders: {
+                Authorization: `Bearer ${token}`
+            }
         });
     }
 

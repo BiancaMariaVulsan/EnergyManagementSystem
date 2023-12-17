@@ -53,7 +53,7 @@ export class UserEditComponent implements OnInit {
     // clientFullInfoDto.password = this.encryptionService.encrypt(clientFullInfoDto.password);
     // clientFullInfoDto.repeatedPassword = clientFullInfoDto.password;
 
-    this.accountService.signupUser(clientFullInfoDto, clientFullInfoDto.password).subscribe(
+    this.accountService.insertUser(clientFullInfoDto, clientFullInfoDto.password).subscribe(
       (result) => {
         if (result != null) {
           this.toastr.success('Successfully created new client!');
