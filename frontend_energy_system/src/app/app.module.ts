@@ -30,6 +30,8 @@ import { WebSocketSrvice } from './services/websockets.service';
 import { MeasurementService } from './services/measurement.service';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AuthInterceptor } from './services/interceptor.service';
+import { ChatComponent } from './chat/chat.component';
+import { MessageService } from './services/message.service';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -52,7 +54,8 @@ export function tokenGetter() {
     AdminUsersComponent,
     UserEditComponent,
     GraphComponent,
-    MeasurementsChartComponent
+    MeasurementsChartComponent,
+    ChatComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -68,13 +71,13 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["http://127.0.0.1:8080", "http://127.0.0.1:8000", "http://127.0.0.1:8081", "ws://127.0.0.1:8081"],
+        allowedDomains: ["http://127.0.0.1:8080", "http://127.0.0.1:8000", "http://127.0.0.1:8081", "ws://127.0.0.1:8081", "http://127.0.0.1:4200"],
         disallowedRoutes: []
       }
     }),
     NgChartsModule
   ],
-  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice, MeasurementService,
+  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice, MeasurementService, MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

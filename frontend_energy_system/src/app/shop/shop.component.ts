@@ -13,7 +13,8 @@ export class ShopComponent implements OnInit {
 
   devices: Device[];
 
-  constructor(private deviceService: DeviceService, private router: Router, private webSocketService: WebSocketSrvice) { }
+  constructor(private deviceService: DeviceService, private router: Router, 
+    private webSocketService: WebSocketSrvice) { }
 
   ngOnInit(): void {
     this.deviceService.getDevicesByUser(localStorage.getItem('eshop-userid')).subscribe(p => {

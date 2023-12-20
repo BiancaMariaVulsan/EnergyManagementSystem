@@ -12,7 +12,8 @@ import { WebSocketSrvice } from '../services/websockets.service';
 export class LoginComponent implements OnInit {
 
   loginUser: LoginUserRequest;
-  constructor(private accountService: AccountService, private router: Router, private webSocketService: WebSocketSrvice) { }
+  constructor(private accountService: AccountService, private router: Router, 
+    private webSocketService: WebSocketSrvice) { }
 
   ngOnInit(): void {
     this.loginUser = new LoginUserRequest();

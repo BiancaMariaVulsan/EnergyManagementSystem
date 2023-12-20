@@ -4,6 +4,8 @@ import { DeviceService } from "./device.service";
 import { Device } from "../models/device.model";
 import * as SockJS from 'sockjs-client';
 import { Stomp } from "@stomp/stompjs";
+import { ChatNotificationMsg } from "../models/notification.model";
+import { MessageService } from "./message.service";
 
 @Injectable ()
 export class WebSocketSrvice {
@@ -11,23 +13,37 @@ export class WebSocketSrvice {
     name: string;
 
     webSocketEndPoint: string = 'http://localhost:8001/ws';
+    webSocketChatEndPoint: string = 'http://localhost:8002/ws';
     topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
     device: Device;
 
-    public constructor(private toasterService: ToastrService, private deviceService: DeviceService) {
+    public constructor(private toasterService: ToastrService, private deviceService: DeviceService, private messageService: MessageService) {
     }
 
     public connect(){
         this._connect();
     }
 
+    public connect_chat(){
+        console.log("Initialize WebSocket Connection");
+        let ws = new SockJS(this.webSocketChatEndPoint);
+        this.stompClient = Stomp.over(ws);
+        const _this = this;
+        _this.stompClient.connect({}, function (frame) {
+            _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
+                _this.onChatMessageReceived(sdkEvent);
+            });
+            _this.stompClient.reconnect_delay = 2000;
+        }, this.errorCallBack);
+    }
+
     public disconnect(){
         this._disconnect();
     }
 
-    sendMessage(){
-        this._send(this.name);
+    sendMessage(massage: string, personId: number) {
+        this._send(massage, personId);
     }
 
     _connect() {
@@ -58,15 +74,6 @@ export class WebSocketSrvice {
         }, 5000);
     }
 
- /**
-  * Send message to sever via web socket
-  * @param {*} message 
-  */
-    _send(message) {
-        console.log("calling logout api via web socket");
-        this.stompClient.send("/app/sendNotification", {}, JSON.stringify(message));
-    }
-
     onMessageReceived(message) {
         const parsedBody = JSON.parse(message.body);
 
@@ -83,7 +90,35 @@ export class WebSocketSrvice {
         this.handleMessage(notif, this.device.description);
     }
 
+    onChatMessageReceived(message) {
+        const parsedBody = JSON.parse(message.body);
+
+        // Accessing the 'body' and 'id' fields
+        const notif = parsedBody.message;
+        const clientId = parsedBody.clientId;
+      
+        // Now you can use 'body' and 'id' as needed
+        console.log("Parsed Body:", notif);
+        console.log("Person Id:", clientId);
+        
+        // Push the message to the shared service
+        this.messageService.addMessage(notif);
+        console.log("Chat Message Received: " + notif);
+    }
+
     handleMessage(msg, name){
         this.toasterService.warning(msg + name);
+    }
+
+     _send(message, personToSendId?: number) {
+        console.log("sending message: " + message);
+        if (localStorage.getItem("eshop-role") === "ADMIN") {
+            const chatNotificationMsg = new ChatNotificationMsg(message, personToSendId, Number(localStorage.getItem("eshop-userid")));
+            this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
+        } else {
+            // The admin should have the id 502
+            const chatNotificationMsg = new ChatNotificationMsg(message, 502, Number(localStorage.getItem("eshop-userid")));
+            this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
+        }
     }
 }

@@ -11,6 +11,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminDevicesComponent } from './admin/admin-devices/admin-devices.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { MeasurementsChartComponent } from './measurements-chart/measurements-chart.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/devices', component: AdminDevicesComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
-  {path: 'measurements/:id', component: MeasurementsChartComponent } // TODO: authorize this
+  {path: 'measurements/:id', component: MeasurementsChartComponent }, // TODO: authorize this
+  {path: 'chat', component: ChatComponent } // TODO: authorize this
 ];
 
 @NgModule({
