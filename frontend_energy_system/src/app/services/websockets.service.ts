@@ -95,12 +95,14 @@ export class WebSocketSrvice {
 
         // Accessing the 'body' and 'id' fields
         const notif = parsedBody.message;
-        const clientId = parsedBody.clientId;
+        const toPersonId = parsedBody.toPersonId;
+        const fromPersonId = parsedBody.fromPersonId;
       
         // Now you can use 'body' and 'id' as needed
         console.log("Parsed Body:", notif);
-        console.log("Person Id:", clientId);
-        
+        console.log("To Person Id:", toPersonId);
+        console.log("From Person Id:", fromPersonId);
+
         // Push the message to the shared service
         this.messageService.addMessage(notif);
         console.log("Chat Message Received: " + notif);
@@ -110,15 +112,9 @@ export class WebSocketSrvice {
         this.toasterService.warning(msg + name);
     }
 
-     _send(message, personToSendId?: number) {
+     _send(message, personToSendId: number) {
         console.log("sending message: " + message);
-        if (localStorage.getItem("eshop-role") === "ADMIN") {
-            const chatNotificationMsg = new ChatNotificationMsg(message, personToSendId, Number(localStorage.getItem("eshop-userid")));
-            this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
-        } else {
-            // The admin should have the id 502
-            const chatNotificationMsg = new ChatNotificationMsg(message, 502, Number(localStorage.getItem("eshop-userid")));
-            this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
-        }
+        const chatNotificationMsg = new ChatNotificationMsg(message, personToSendId, Number(localStorage.getItem("eshop-userid")));
+        this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
     }
 }

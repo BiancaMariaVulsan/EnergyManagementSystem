@@ -18,7 +18,7 @@ public class WebSocketController {
     @MessageMapping("/sendNotification")
     @SendTo("/topic/notification")
     public void receiveNotification(Notification notification) {
-        System.out.println("Received Notification: " + notification.getMessage());
+        System.out.println("Received Notification: " + notification.getMessage() + " from " + notification.getFromPersonId() + " to " + notification.getToPersonId());
         messagingTemplate.convertAndSend("/topic/notification/" + notification.getToPersonId(), notification);
     }
 }

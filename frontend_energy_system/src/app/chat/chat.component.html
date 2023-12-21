@@ -13,7 +13,7 @@
         <div class="panel-footer">
           <div class="input-group">
             <!-- Client Picker -->
-            <select class="form-control" [(ngModel)]="selectedClient">
+            <select class="form-control" [(ngModel)]="selectedClientId">
               <option *ngFor="let client of clients" [value]="client.id">{{ client.firstName }} {{ client.lastName }}</option>
             </select>
             <!-- Message Input -->
