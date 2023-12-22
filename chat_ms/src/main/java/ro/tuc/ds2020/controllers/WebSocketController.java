@@ -35,7 +35,7 @@ public class WebSocketController {
         // Store message in Redis
         redisTemplate.opsForList().rightPush(getConversationTopic(notification.getFromPersonId(), notification.getToPersonId()), jsonNotification);
 
-        messagingTemplate.convertAndSend("/topic/notification/" + notification.getToPersonId(), notification.getMessage());
+        messagingTemplate.convertAndSend("/topic/notification/" + notification.getToPersonId(), notification);
     }
 
     // Additional method to retrieve stored messages from Redis

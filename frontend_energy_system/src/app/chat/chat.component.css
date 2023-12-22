@@ -1,0 +1,26 @@
+.text-left,
+.text-right {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.text-left {
+    text-align: left;
+    color: black;
+    background-color: #f0f0f0; /* Light gray background for left text */
+}
+
+.text-right {
+    text-align: right;
+    color: white;
+    background-color: #4caf50; /* Green background for right text */
+}
+
+/* Media query for better responsiveness on smaller screens */
+@media (max-width: 768px) {
+    .text-left,
+    .text-right {
+        width: 100%; /* Make the chat bubbles full width on smaller screens */
+    }
+}

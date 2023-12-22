@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { WebSocketSrvice } from "../services/websockets.service";
-import { MessageService } from "../services/message.service";
 import { AccountService } from "../services/account.service";
 import { LoginUserReply } from "../models/loginuser.model";
 import { ChatNotificationMsg } from "../models/notification.model";
@@ -11,11 +10,21 @@ import { ChatNotificationMsg } from "../models/notification.model";
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  newMessage: ChatNotificationMsg = new ChatNotificationMsg('', 0, Number(localStorage.getItem("eshop-username")));
+  newMessage: string = "";
   clients: LoginUserReply[];
   selectedClientId: number;
+  messages: ChatNotificationMsg[] = [];
+  crtUserId: number = Number(localStorage.getItem("eshop-userid"));
 
-  constructor(private webSocketService: WebSocketSrvice, public messageService: MessageService, private accountService: AccountService) {
+  constructor(private webSocketService: WebSocketSrvice, private accountService: AccountService) {
+    this.webSocketService.messageReceived.asObservable().subscribe(message => {
+      if(message) {
+        this.messages.push(message);
+      }
+    })
+  }
+
+  ngOnInit(): void {    
     this.accountService.getUsers().subscribe(p => {
       // Ensure that p is defined and not undefined
       if (p) {
@@ -28,22 +37,18 @@ export class ChatComponent implements OnInit {
         }
       }
     });
-  }
-  
 
-  ngOnInit(): void {
     this.webSocketService.connect_chat();
-    this.getStoredMessages();
   }
 
   onPersonCahanged() {
-    this.messageService.clearMessages();
+    this.messages = [];
     this.getStoredMessages();
   }
 
   sendMessage() {
-    this.messageService.addMessage(this.newMessage);
-    this.webSocketService.sendMessage(this.newMessage.message, this.selectedClientId);
+    this.messages.push(new ChatNotificationMsg(this.newMessage, this.selectedClientId, Number(localStorage.getItem("eshop-username"))));
+    this.webSocketService.sendMessage(this.newMessage, this.selectedClientId);
   }
 
   private getStoredMessages() {

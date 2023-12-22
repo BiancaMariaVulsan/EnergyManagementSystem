@@ -1,12 +1,11 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable, Output } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { DeviceService } from "./device.service";
 import { Device } from "../models/device.model";
 import * as SockJS from 'sockjs-client';
 import { Stomp } from "@stomp/stompjs";
 import { ChatNotificationMsg } from "../models/notification.model";
-import { MessageService } from "./message.service";
-import { BehaviorSubject } from "rxjs";
+import { Observable, Subject, of } from "rxjs";
 
 @Injectable ()
 export class WebSocketSrvice {
@@ -18,8 +17,10 @@ export class WebSocketSrvice {
     topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
     device: Device;
+    chatNotificationMsg: ChatNotificationMsg;
+    messageReceived: Subject<ChatNotificationMsg>= new Subject<ChatNotificationMsg>();
 
-    public constructor(private toasterService: ToastrService, private deviceService: DeviceService, private messageService: MessageService) {
+    public constructor(private toasterService: ToastrService, private deviceService: DeviceService) {
     }
 
     public connect(){
@@ -91,22 +92,25 @@ export class WebSocketSrvice {
         this.handleMessage(notif, this.device.description);
     }
 
-    onChatMessageReceived(message) {
+    onChatMessageReceived(message){
         const parsedBody = JSON.parse(message.body);
 
         // Accessing the 'body' and 'id' fields
         const notif = parsedBody.message;
         const toPersonId = parsedBody.toPersonId;
         const fromPersonId = parsedBody.fromPersonId;
-      
+          
         // Now you can use 'body' and 'id' as needed
         console.log("Parsed Body:", notif);
         console.log("To Person Id:", toPersonId);
         console.log("From Person Id:", fromPersonId);
 
-        // Push the message to the shared service
-        this.messageService.addMessage(new ChatNotificationMsg(notif, fromPersonId, toPersonId));
-        console.log("Chat Message Received: " + notif);
+        this.chatNotificationMsg = new ChatNotificationMsg(notif, fromPersonId, toPersonId);
+        this.messageReceived.next(this.chatNotificationMsg);
+    }
+
+    getChatNotification(): Observable<ChatNotificationMsg> {
+        return of(this.chatNotificationMsg);
     }
 
     handleMessage(msg, name){
