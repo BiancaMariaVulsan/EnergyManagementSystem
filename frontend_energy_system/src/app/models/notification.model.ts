@@ -18,4 +18,5 @@ export class ChatNotificationMsg {
         this.toPersonId = toPersonId;
         this.fromPersonId = fromPersonId;
     }
+
 }

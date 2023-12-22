@@ -5,19 +5,23 @@
         <div class="panel-heading">
           <h3 class="panel-title">Chat with Administrators</h3>
         </div>
-        <div class="panel-body chat-box">
-          <div *ngFor="let message of messages" class="message">
-            {{ message }}
+
+        <!-- Add 'message-container clearfix' classes to the panel-body div -->
+        <div class="panel-body chat-box message-container">
+          <!-- Add 'pull-right' or 'pull-left' classes based on sender -->
+          <div *ngFor="let message of messageService.getMessages()" class="message clearfix" [ngClass]="{'my-message text-right': message.fromPersonId === selectedClientId, 'other-message text-left': message.fromPersonId !== selectedClientId}">
+            {{ message.message }}
           </div>
         </div>
+
         <div class="panel-footer">
           <div class="input-group">
             <!-- Client Picker -->
-            <select class="form-control" [(ngModel)]="selectedClientId">
+            <select class="form-control" [(ngModel)]="selectedClientId" (change)="onPersonCahanged()">
               <option *ngFor="let client of clients" [value]="client.id">{{ client.firstName }} {{ client.lastName }}</option>
             </select>
             <!-- Message Input -->
-            <input type="text" class="form-control" placeholder="Type your message..." [(ngModel)]="newMessage" />
+            <input type="text" class="form-control" placeholder="Type your message..." [(ngModel)]="newMessage.message" />
             <!-- Send Button -->
             <button class="btn" (click)="sendMessage()">Send</button>
           </div>

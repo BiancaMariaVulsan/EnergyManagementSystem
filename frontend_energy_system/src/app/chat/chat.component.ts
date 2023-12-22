@@ -3,6 +3,7 @@ import { WebSocketSrvice } from "../services/websockets.service";
 import { MessageService } from "../services/message.service";
 import { AccountService } from "../services/account.service";
 import { LoginUserReply } from "../models/loginuser.model";
+import { ChatNotificationMsg } from "../models/notification.model";
 
 @Component({
   selector: 'app-chat',
@@ -10,13 +11,11 @@ import { LoginUserReply } from "../models/loginuser.model";
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  messages: string[] = [];
-  newMessage: string = '';
+  newMessage: ChatNotificationMsg = new ChatNotificationMsg('', 0, Number(localStorage.getItem("eshop-username")));
   clients: LoginUserReply[];
   selectedClientId: number;
 
-  constructor(private webSocketService: WebSocketSrvice, private messageService: MessageService, private accountService: AccountService) {
-    this.messages = this.messageService.getMessages();
+  constructor(private webSocketService: WebSocketSrvice, public messageService: MessageService, private accountService: AccountService) {
     this.accountService.getUsers().subscribe(p => {
       // Ensure that p is defined and not undefined
       if (p) {
@@ -27,7 +26,6 @@ export class ChatComponent implements OnInit {
         } else {
           this.clients = this.clients.filter(c => c.role.name === 'Admin');
         }
-        this.selectedClientId = this.clients.length > 0 ? this.clients[0].id : null;
       }
     });
   }
@@ -35,13 +33,21 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.webSocketService.connect_chat();
+    this.getStoredMessages();
+  }
+
+  onPersonCahanged() {
+    this.messageService.clearMessages();
+    this.getStoredMessages();
   }
 
   sendMessage() {
-    if (this.newMessage.trim() !== '') {
-      this.messageService.addMessage(this.newMessage);
-      this.webSocketService.sendMessage(this.newMessage, this.selectedClientId);
-      this.newMessage = '';
-    }
+    this.messageService.addMessage(this.newMessage);
+    this.webSocketService.sendMessage(this.newMessage.message, this.selectedClientId);
+  }
+
+  private getStoredMessages() {
+    // Retrieve stored messages from the server for a specific conversation
+    this.webSocketService.getStoredMessages(Number(localStorage.getItem("eshop-userid")), Number(this.selectedClientId));
   }
 }

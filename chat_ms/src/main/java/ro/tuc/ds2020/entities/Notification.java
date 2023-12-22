@@ -1,6 +1,8 @@
 package ro.tuc.ds2020.entities;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
     private int toPersonId;
     private int fromPersonId;
     private String message;

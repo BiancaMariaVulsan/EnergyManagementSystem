@@ -6,6 +6,7 @@ import * as SockJS from 'sockjs-client';
 import { Stomp } from "@stomp/stompjs";
 import { ChatNotificationMsg } from "../models/notification.model";
 import { MessageService } from "./message.service";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable ()
 export class WebSocketSrvice {
@@ -25,18 +26,18 @@ export class WebSocketSrvice {
         this._connect();
     }
 
-    public connect_chat(){
-        console.log("Initialize WebSocket Connection");
-        let ws = new SockJS(this.webSocketChatEndPoint);
-        this.stompClient = Stomp.over(ws);
+    connect_chat() {
+        let socket = new SockJS(this.webSocketChatEndPoint);
+        this.stompClient = Stomp.over(socket);
         const _this = this;
         _this.stompClient.connect({}, function (frame) {
-            _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
-                _this.onChatMessageReceived(sdkEvent);
-            });
-            _this.stompClient.reconnect_delay = 2000;
-        }, this.errorCallBack);
-    }
+          console.log('Connected: ' + frame);
+          // Subscribe to the user's conversation topic
+          _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
+            _this.onChatMessageReceived(sdkEvent);
+          });
+        });
+      }
 
     public disconnect(){
         this._disconnect();
@@ -104,7 +105,7 @@ export class WebSocketSrvice {
         console.log("From Person Id:", fromPersonId);
 
         // Push the message to the shared service
-        this.messageService.addMessage(notif);
+        this.messageService.addMessage(new ChatNotificationMsg(notif, fromPersonId, toPersonId));
         console.log("Chat Message Received: " + notif);
     }
 
@@ -116,5 +117,11 @@ export class WebSocketSrvice {
         console.log("sending message: " + message);
         const chatNotificationMsg = new ChatNotificationMsg(message, personToSendId, Number(localStorage.getItem("eshop-userid")));
         this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
+    }
+
+    getStoredMessages(fromPersonId: number, toPersonId: number) {
+        // Request stored messages from the server for a specific conversation
+        // Send a JSON payload to the server
+        this.stompClient.send("/app/getStoredMessages", {}, JSON.stringify({ fromPersonId, toPersonId }));
     }
 }
