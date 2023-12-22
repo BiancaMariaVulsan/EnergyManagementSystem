@@ -37,13 +37,15 @@ export class ChatComponent implements OnInit {
         }
       }
     });
-
+    
+    this.webSocketService.connect_notifications();
     this.webSocketService.connect_chat();
   }
 
   onPersonCahanged() {
     this.messages = [];
     this.getStoredMessages();
+    this.webSocketService.sendNotification("Read", Number(this.selectedClientId));
   }
 
   sendMessage() {
@@ -54,5 +56,13 @@ export class ChatComponent implements OnInit {
   private getStoredMessages() {
     // Retrieve stored messages from the server for a specific conversation
     this.webSocketService.getStoredMessages(Number(localStorage.getItem("eshop-userid")), Number(this.selectedClientId));
+  }
+
+  onFocus() {
+    // Send notification when input field gains focus
+    if (this.selectedClientId) {
+      const notificationMessage = `Typing...`;
+      this.webSocketService.sendNotification(notificationMessage, Number(this.selectedClientId));
+    }
   }
 }

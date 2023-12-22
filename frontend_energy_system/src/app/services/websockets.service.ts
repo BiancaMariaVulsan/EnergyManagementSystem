@@ -8,14 +8,16 @@ import { ChatNotificationMsg } from "../models/notification.model";
 import { Observable, Subject, of } from "rxjs";
 
 @Injectable ()
-export class WebSocketSrvice {
-    
+export class WebSocketSrvice {    
     name: string;
 
     webSocketEndPoint: string = 'http://localhost:8001/ws';
     webSocketChatEndPoint: string = 'http://localhost:8002/ws';
+    webSocketNotifEndPoint: string = 'http://localhost:8002/notif';
     topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
+    stompClientChat: any;
+    stompClientNotif: any;
     device: Device;
     chatNotificationMsg: ChatNotificationMsg;
     messageReceived: Subject<ChatNotificationMsg>= new Subject<ChatNotificationMsg>();
@@ -29,16 +31,29 @@ export class WebSocketSrvice {
 
     connect_chat() {
         let socket = new SockJS(this.webSocketChatEndPoint);
-        this.stompClient = Stomp.over(socket);
+        this.stompClientChat = Stomp.over(socket);
         const _this = this;
-        _this.stompClient.connect({}, function (frame) {
+        _this.stompClientChat.connect({}, function (frame) {
           console.log('Connected: ' + frame);
           // Subscribe to the user's conversation topic
-          _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
+          _this.stompClientChat.subscribe(_this.topic, function (sdkEvent) {
             _this.onChatMessageReceived(sdkEvent);
           });
         });
-      }
+    }
+
+    connect_notifications() {
+        let socket = new SockJS(this.webSocketNotifEndPoint);
+        this.stompClientNotif = Stomp.over(socket);
+        const _this = this;
+        _this.stompClientNotif.connect({}, function (frame) {
+          console.log('Connected: ' + frame);
+          // Subscribe to the user's conversation topic
+          _this.stompClientNotif.subscribe("/topic/notification_topic/" + localStorage.getItem("eshop-userid"), function (sdkEvent) {
+            _this.onNotificationReceived(sdkEvent);
+          });
+        });
+    }
 
     public disconnect(){
         this._disconnect();
@@ -46,6 +61,10 @@ export class WebSocketSrvice {
 
     sendMessage(massage: string, personId: number) {
         this._send(massage, personId);
+    }
+
+    sendNotification(notificationMessage: string, selectedClientId: number) {
+        this.stompClientNotif.send("/app/sendChatNotification", {}, JSON.stringify({ notificationMessage, selectedClientId }));
     }
 
     _connect() {
@@ -109,6 +128,10 @@ export class WebSocketSrvice {
         this.messageReceived.next(this.chatNotificationMsg);
     }
 
+    onNotificationReceived(message) {
+        this.toasterService.warning(message.body);
+    }
+
     getChatNotification(): Observable<ChatNotificationMsg> {
         return of(this.chatNotificationMsg);
     }
@@ -120,12 +143,12 @@ export class WebSocketSrvice {
      _send(message, personToSendId: number) {
         console.log("sending message: " + message);
         const chatNotificationMsg = new ChatNotificationMsg(message, personToSendId, Number(localStorage.getItem("eshop-userid")));
-        this.stompClient.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
+        this.stompClientChat.send("/app/sendNotification", {}, JSON.stringify(chatNotificationMsg));
     }
 
     getStoredMessages(fromPersonId: number, toPersonId: number) {
         // Request stored messages from the server for a specific conversation
         // Send a JSON payload to the server
-        this.stompClient.send("/app/getStoredMessages", {}, JSON.stringify({ fromPersonId, toPersonId }));
+        this.stompClientChat.send("/app/getStoredMessages", {}, JSON.stringify({ fromPersonId, toPersonId }));
     }
 }

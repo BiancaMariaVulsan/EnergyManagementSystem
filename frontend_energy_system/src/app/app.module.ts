@@ -31,7 +31,6 @@ import { MeasurementService } from './services/measurement.service';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AuthInterceptor } from './services/interceptor.service';
 import { ChatComponent } from './chat/chat.component';
-import { MessageService } from './services/message.service';
 
 export function tokenGetter() {
   return localStorage.getItem("eshop-jwt");
@@ -77,7 +76,7 @@ export function tokenGetter() {
     }),
     NgChartsModule
   ],
-  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice, MeasurementService, MessageService,
+  providers: [AccountService, DeviceService, DatePipe, WebSocketSrvice, MeasurementService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

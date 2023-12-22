@@ -17,11 +17,13 @@
         <div class="panel-footer">
           <div class="input-group">
             <!-- Client Picker -->
-            <select class="form-control" [(ngModel)]="selectedClientId" (change)="onPersonCahanged()">
-              <option *ngFor="let client of clients" [value]="client.id">{{ client.firstName }} {{ client.lastName }}</option>
-            </select>
+            <div class="client-picker">
+              <select class="form-control" [(ngModel)]="selectedClientId" (change)="onPersonCahanged()">
+                  <option *ngFor="let client of clients" [value]="client.id">{{ client.firstName }} {{ client.lastName }}</option>
+              </select>
+            </div>
             <!-- Message Input -->
-            <input type="text" class="form-control" placeholder="Type your message..." [(ngModel)]="newMessage" />
+            <input type="text" class="form-control" placeholder="Type your message..." [(ngModel)]="newMessage" (focus)="onFocus()"/>
             <!-- Send Button -->
             <button class="btn" (click)="sendMessage()">Send</button>
           </div>

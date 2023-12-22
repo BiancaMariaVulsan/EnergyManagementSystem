@@ -32,3 +32,17 @@
         max-width: 100%;
     }
 }
+
+.client-picker {
+    flex-grow: 0.2; /* Allow the client picker to take up available space */
+    margin-right: 10px; /* Add some space between the client picker and the message input */
+}
+
+/* Media query for better responsiveness on smaller screens */
+@media (max-width: 768px) {
+    .client-picker {
+        width: 100%; /* Make the client picker full width on smaller screens */
+        margin-bottom: 10px; /* Add some space below the client picker on smaller screens */
+    }
+}
+

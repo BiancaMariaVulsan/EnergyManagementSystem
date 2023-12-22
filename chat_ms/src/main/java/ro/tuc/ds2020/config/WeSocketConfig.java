@@ -11,12 +11,16 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WeSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
+        config.enableSimpleBroker("/topic", "/notification_topic");
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // First endpoint
         registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:4200").withSockJS();
+
+        // Second endpoint
+        registry.addEndpoint("/notif").setAllowedOrigins("http://localhost:4200").withSockJS();
     }
 }

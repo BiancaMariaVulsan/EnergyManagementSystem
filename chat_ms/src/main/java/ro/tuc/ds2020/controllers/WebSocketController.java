@@ -66,4 +66,14 @@ public class WebSocketController {
         System.out.println("Conversation topic hash: " + hash);
         return String.format("/topic/notification/conversation/%d", hash);
     }
+
+    @MessageMapping("/sendChatNotification")
+    @SendTo("/topic/notification_topic")
+    public void receiveTypingNotification(Map<String, Object> notification) throws JsonProcessingException {
+        // Convert Notification object to JSON
+        String notificationMessage = (String) notification.get("notificationMessage");
+        int selectedClientId = (int) notification.get("selectedClientId");
+
+        messagingTemplate.convertAndSend("/topic/notification_topic/" + selectedClientId, notificationMessage);
+    }
 }
