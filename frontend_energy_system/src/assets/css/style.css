@@ -2186,24 +2186,3 @@ table.shop_table_responsive {
   color: #999;
   text-align: center;
 }
-
-/* Add this to your CSS file or style section in your component */
-
-.message-container {
-  overflow: hidden;
-}
-
-.message {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-}
-
-.my-message {
-  background-color: #5bc0de; /* Use your preferred color */
-  color: white;
-}
-
-.other-message {
-  background-color: #d3d3d3; /* Use your preferred color */
-}

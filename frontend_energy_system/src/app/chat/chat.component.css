@@ -1,26 +1,34 @@
-.text-left,
-.text-right {
+.message-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    word-wrap: break-word;
+    margin-bottom: 8px;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 8px;
 }
 
 .text-left {
+    align-self: flex-start;
     text-align: left;
     color: black;
-    background-color: #f0f0f0; /* Light gray background for left text */
+    background-color: #f0f0f0;
 }
 
 .text-right {
+    align-self: flex-end;
     text-align: right;
     color: white;
-    background-color: #4caf50; /* Green background for right text */
+    background-color: #fb5c42;
 }
 
 /* Media query for better responsiveness on smaller screens */
 @media (max-width: 768px) {
-    .text-left,
-    .text-right {
-        width: 100%; /* Make the chat bubbles full width on smaller screens */
+    .message {
+        max-width: 100%;
     }
 }
