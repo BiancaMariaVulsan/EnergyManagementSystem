@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit {
         }
       }
     });
-    
+
     this.webSocketService.connect_notifications();
     this.webSocketService.connect_chat();
   }
@@ -45,7 +45,15 @@ export class ChatComponent implements OnInit {
   onPersonCahanged() {
     this.messages = [];
     this.getStoredMessages();
-    this.webSocketService.sendNotification("Read", Number(this.selectedClientId));
+
+    let clientName: string = "";
+    for (let i = 0; i < this.clients.length; i++) {
+      if (this.clients[i].id === Number(this.selectedClientId)) {
+        clientName = this.clients[i].firstName + " " + this.clients[i].lastName;
+      }
+    }
+    
+    this.webSocketService.sendNotification(clientName + " is reading your messages!", Number(this.selectedClientId)); // Fix the string concatenation
   }
 
   sendMessage() {
@@ -61,7 +69,13 @@ export class ChatComponent implements OnInit {
   onFocus() {
     // Send notification when input field gains focus
     if (this.selectedClientId) {
-      const notificationMessage = `Typing...`;
+      let clientName: string = "";
+      for (let i = 0; i < this.clients.length; i++) {
+        if (this.clients[i].id === Number(this.selectedClientId)) {
+          clientName = this.clients[i].firstName + " " + this.clients[i].lastName;
+        }
+      }
+      const notificationMessage = clientName + "is typing...";
       this.webSocketService.sendNotification(notificationMessage, Number(this.selectedClientId));
     }
   }
