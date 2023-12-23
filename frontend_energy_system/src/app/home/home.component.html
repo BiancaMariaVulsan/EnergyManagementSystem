@@ -38,7 +38,7 @@
                     <div class="title text-center">
                         <h2>Our Products</h2>
                         <p>Reduce expenses, and support their environment</p>
-                        <a routerLink="shop" class="btn btn-main">Visit Now</a>
+                        <a  [routerLink]="isAdmin ? 'admin' : 'shop'" class="btn btn-main">Visit Now</a>
                     </div>
                 </div>
             </div>

@@ -17,11 +17,7 @@ export class ChatComponent implements OnInit {
   crtUserId: number = Number(localStorage.getItem("eshop-userid"));
 
   constructor(private webSocketService: WebSocketSrvice, private accountService: AccountService) {
-    this.webSocketService.messageReceived.asObservable().subscribe(message => {
-      if(message) {
-        this.messages.push(message);
-      }
-    })
+    
   }
 
   ngOnInit(): void {    
@@ -40,6 +36,23 @@ export class ChatComponent implements OnInit {
 
     this.webSocketService.connect_notifications();
     this.webSocketService.connect_chat();
+
+    this.webSocketService.messageReceived.asObservable().subscribe(message => {
+      if(message) {
+        if (message.toPersonId === this.selectedClientId || message.toPersonId === this.crtUserId
+          || message.fromPersonId === this.selectedClientId || message.fromPersonId === this.crtUserId) {
+          this.messages.push(message);
+        }
+        
+        let clientName: string = "";
+        for (let i = 0; i < this.clients.length; i++) {
+          if (this.clients[i].id === Number(this.selectedClientId)) {
+            clientName = this.clients[i].firstName + " " + this.clients[i].lastName;
+          }
+        }
+        this.webSocketService.sendNotification(clientName + " is reading your messages!", Number(this.selectedClientId));
+      }
+    })
   }
 
   onPersonCahanged() {
@@ -53,7 +66,9 @@ export class ChatComponent implements OnInit {
       }
     }
     
-    this.webSocketService.sendNotification(clientName + " is reading your messages!", Number(this.selectedClientId)); // Fix the string concatenation
+    if (this.messages.length > 0) {
+      this.webSocketService.sendNotification(clientName + " is reading your messages!", Number(this.selectedClientId));
+    }
   }
 
   sendMessage() {
