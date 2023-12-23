@@ -24,8 +24,8 @@ const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/devices', component: AdminDevicesComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
   {path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { roles: 'Admin' }},
-  {path: 'measurements/:id', component: MeasurementsChartComponent }, // TODO: authorize this
-  {path: 'chat', component: ChatComponent } // TODO: authorize this
+  {path: 'measurements/:id', component: MeasurementsChartComponent, canActivate: [AuthGuard], data: { roles: 'User' } },
+  {path: 'chat', component: ChatComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

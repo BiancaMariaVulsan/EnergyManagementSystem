@@ -1,0 +1,14 @@
+/* app.component.css or in a global styles file */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px; /* Adjust padding for the desired size */
+    background-color: #fb5c42;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Remove default link underline */
+  }
+  
