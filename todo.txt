@@ -1,1 +1,3 @@
-- adaug tocken in header la requestul de delete din user ms
+- add jwt to monitoring service
+- add redis image and change connection
+- documentation

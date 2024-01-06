@@ -110,6 +110,16 @@ services:
     depends_on:
       - postgres-monitoring
 
+  # Spring Boot application service for chat
+  chat-app:
+    image: chat:latest
+    container_name: chat
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.8
+    ports:
+      - "8002:8002"  # Map to a different host port
+
   frontend:
     container_name: client
     image: client:latest
@@ -122,3 +132,4 @@ services:
       - user-management-app
       - device-management-app
       - monitoring-app
+      - chat-app

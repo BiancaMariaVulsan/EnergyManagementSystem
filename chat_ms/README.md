@@ -1,39 +1,49 @@
-# Device Service
+# Chat Service
 
 ## Getting Started
     
-    These instructions will help you set up and run the Device Management Service on your local development machine.    
+    These instructions will help you set up and run the Chat Management Service on your local development machine.    
 
 ## API Documentation
 
-    Create, Read, Update, and Delete (CRUD) operations for devices.
-    Retrieve device information, including description, address, and owner and maximum energy consumption.
+    Thie ms receives requests about chat conversations via web sockets and sends responses via web sockets.
 
 ### Prerequisites
 
     Java
     Spring Boot
-    Hibernate
-    PostgreSQL (or your preferred database)
+    Redis
     Spring Security (for authentication and authorization)
-    RESTful API design
 
 ### Installing
 
     1. Clone the repository
-    2. Create a database in PostgreSQL
-    3. Update the database connection details in the application.properties file
+    2. Start Redis local server
+        2.1. Make sure you have WSL. Open a WSL terminal and run the following commands:
+
+        curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+        echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+        
+        sudo apt-get update
+        sudo apt-get install redis
+
+        sudo service redis-server start
+
     4. Build the project using Maven
     5. Run the project
 
 ### Deployment
 
+    Before building the image run maven clean, install and package commands to make sure everything is prepared.
+
     Remove any previos image named devices and create a new one with the following command:   
-    docker build -t devices .
+    docker build -t chat .
     Note: it is important to use the recommended name for the image, otherwise the docker-compose file will not work.
 
 
     Create the image for the user service and for the client accoring to their corresponding Dockerfiles.
+    After creating the images for all microservices:
     Navigate in the root directory: 
     cd ..
 

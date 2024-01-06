@@ -14,14 +14,6 @@ RUN ls -l /root
 
 FROM openjdk:17-jdk-slim-buster
 
-ENV TZ=UTC
-ENV DB_IP=ec2-52-48-65-240.eu-west-1.compute.amazonaws.com
-ENV DB_PORT=5432
-ENV DB_USER=postgres
-ENV DB_PASSWORD=Vulsan2001
-ENV DB_DBNAME=monitoring-db
-
-
 COPY --from=builder /root/dependencies/ ./
 COPY --from=builder /root/snapshot-dependencies/ ./
 

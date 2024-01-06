@@ -33,6 +33,7 @@
     Note: it is important to use the recommended name for the image, otherwise the docker-compose file will not work.
 
     Create the image for the user service and for the client accoring to their corresponding Dockerfiles.
+    After creating the images for all microservices:
     Navigate in the root directory: 
     cd ..
 

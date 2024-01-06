@@ -28,12 +28,17 @@
 
 ### Deployment
 
+    Before building the image run maven clean, install and package commands to make sure everything is prepared.
+    Also make sure to change the db url in the application.properties file to the correct one.
+    If there are requests to localhist, make sure to change the url to the correct network address.
+
     Remove any previos image named devices and create a new one with the following command:   
-    docker build -t devices .
+    docker build -t monitoring .
     Note: it is important to use the recommended name for the image, otherwise the docker-compose file will not work.
 
 
     Create the image for the user service and for the client accoring to their corresponding Dockerfiles.
+    After creating the images for all microservices:
     Navigate in the root directory: 
     cd ..
 
