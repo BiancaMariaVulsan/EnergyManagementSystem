@@ -8,12 +8,12 @@ import { ChatNotificationMsg } from "../models/notification.model";
 import { Observable, Subject, of } from "rxjs";
 
 @Injectable ()
-export class WebSocketSrvice {    
+export class WebSocketSrvice {
     name: string;
 
-    webSocketEndPoint: string = 'http://localhost:8001/ws';
-    webSocketChatEndPoint: string = 'http://localhost:8002/ws';
-    webSocketNotifEndPoint: string = 'http://localhost:8002/notif';
+    webSocketEndPoint: string = 'http://4.225.32.206:8001/ws';
+    webSocketChatEndPoint: string = 'http://20.240.172.40:8002/ws';
+    webSocketNotifEndPoint: string = 'http://20.240.172.40:8002/notif';
     topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
     stompClientChat: any;
@@ -101,13 +101,13 @@ export class WebSocketSrvice {
         // Accessing the 'body' and 'id' fields
         const notif = parsedBody.message;
         const deviceId = parsedBody.deviceId;
-      
+
         // Now you can use 'body' and 'id' as needed
         console.log("Parsed Body:", notif);
         console.log("Device Id:", deviceId);
 
         this.device = this.deviceService.findDevice(deviceId);
-        
+
         this.handleMessage(notif, this.device.description);
     }
 
@@ -118,7 +118,7 @@ export class WebSocketSrvice {
         const notif = parsedBody.message;
         const toPersonId = parsedBody.toPersonId;
         const fromPersonId = parsedBody.fromPersonId;
-          
+
         // Now you can use 'body' and 'id' as needed
         console.log("Parsed Body:", notif);
         console.log("To Person Id:", toPersonId);
