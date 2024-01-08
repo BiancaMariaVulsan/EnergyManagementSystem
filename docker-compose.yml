@@ -22,114 +22,114 @@ services:
     expose:
       - 5432
       
-  # Spring Boot application service for user management
-  user-management-app:
-    image: users:latest
-    container_name: users
-    networks:
-      custom_network:
-        ipv4_address: 172.16.0.3
-    environment:
-      DB_IP: 172.16.0.2
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: Vulsan2001
-      DB_DBNAME: person-db
-      DEVICE_CONTAINER_NAME: 172.16.0.5
-      DEVICE_CONTAINER_PORT: 8000
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres-user
+  # # Spring Boot application service for user management
+  # user-management-app:
+  #   image: projectbv.azurecr.io/users
+  #   container_name: users
+  #   networks:
+  #     custom_network:
+  #       ipv4_address: 172.16.0.3
+  #   environment:
+  #     DB_IP: 172.16.0.2
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: Vulsan2001
+  #     DB_DBNAME: person-db
+  #     DEVICE_CONTAINER_NAME: 172.16.0.5
+  #     DEVICE_CONTAINER_PORT: 8000
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - postgres-user
 
-  # PostgreSQL service for device management
-  postgres-device:
-    image: postgres:16-alpine3.18
-    container_name: postgres-device
-    networks:
-      custom_network:
-        ipv4_address: 172.16.0.4
-    environment:
-      POSTGRES_DB: device-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Vulsan2001
-    expose:
-      - 5432
-   # Use a different port for the second PostgreSQL instance
+  # # PostgreSQL service for device management
+  # postgres-device:
+  #   image: postgres:16-alpine3.18
+  #   container_name: postgres-device
+  #   networks:
+  #     custom_network:
+  #       ipv4_address: 172.16.0.4
+  #   environment:
+  #     POSTGRES_DB: device-db
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: Vulsan2001
+  #   expose:
+  #     - 5432
+  #  # Use a different port for the second PostgreSQL instance
       
-  # Spring Boot application service for device management
-  device-management-app:
-    image: devices:latest
-    container_name: devices
-    networks:
-      custom_network:
-        ipv4_address: 172.16.0.5
-    environment:
-      DB_IP: 172.16.0.4
-      DB_PORT: 5432  
-      DB_USER: postgres
-      DB_PASSWORD: Vulsan2001
-      DB_DBNAME: device-db
-      USER_CONTAINER_NAME: 172.16.0.3
-      USER_CONTAINER_PORT: 8080
-    ports:
-      - "8000:8000"  # Map to a different host port
-    depends_on:
-      - postgres-device
+  # # Spring Boot application service for device management
+  # device-management-app:
+  #   image: projectbv.azurecr.io/devices
+  #   container_name: devices
+  #   networks:
+  #     custom_network:
+  #       ipv4_address: 172.16.0.5
+  #   environment:
+  #     DB_IP: 172.16.0.4
+  #     DB_PORT: 5432  
+  #     DB_USER: postgres
+  #     DB_PASSWORD: Vulsan2001
+  #     DB_DBNAME: device-db
+  #     USER_CONTAINER_NAME: 172.16.0.3
+  #     USER_CONTAINER_PORT: 8080
+  #   ports:
+  #     - "8000:8000"  # Map to a different host port
+  #   depends_on:
+  #     - postgres-device
     
-  # PostgreSQL service for monitoring
-  postgres-monitoring:
-    image: postgres:16-alpine3.18
-    container_name: postgres-monitoring
-    networks:
-      custom_network:
-        ipv4_address: 172.16.0.6
-    environment:
-      POSTGRES_DB: monitoring-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Vulsan2001
-    expose:
-      - 5432
-   # Use a different port for the second PostgreSQL instance
+  # # PostgreSQL service for monitoring
+  # postgres-monitoring:
+  #   image: postgres:16-alpine3.18
+  #   container_name: postgres-monitoring
+  #   networks:
+  #     custom_network:
+  #       ipv4_address: 172.16.0.6
+  #   environment:
+  #     POSTGRES_DB: monitoring-db
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: Vulsan2001
+  #   expose:
+  #     - 5432
+  #  # Use a different port for the second PostgreSQL instance
       
-  # Spring Boot application service for monitoring
-  monitoring-app:
-    image: monitoring:latest
-    container_name: monitoring
-    networks:
-      custom_network:
-        ipv4_address: 172.16.0.7
-    environment:
-      DB_IP: 172.16.0.6
-      DB_PORT: 5432  
-      DB_USER: postgres
-      DB_PASSWORD: Vulsan2001
-      DB_DBNAME: monitoring-db
-    ports:
-      - "8001:8001"  # Map to a different host port
-    depends_on:
-      - postgres-monitoring
+  # # Spring Boot application service for monitoring
+  # monitoring-app:
+  #   image: projectbv.azurecr.io/monitoring
+  #   container_name: monitoring
+  #   networks:
+  #     custom_network:
+  #       ipv4_address: 172.16.0.7
+  #   environment:
+  #     DB_IP: 172.16.0.6
+  #     DB_PORT: 5432  
+  #     DB_USER: postgres
+  #     DB_PASSWORD: Vulsan2001
+  #     DB_DBNAME: monitoring-db
+  #   ports:
+  #     - "8001:8001"  # Map to a different host port
+  #   depends_on:
+  #     - postgres-monitoring
 
-  # Spring Boot application service for chat
-  chat-app:
-    image: chat:latest
-    container_name: chat
-    networks:
-      custom_network:
-        ipv4_address: 172.16.0.8
-    ports:
-      - "8002:8002"  # Map to a different host port
+  # # Spring Boot application service for chat
+  # chat-app:
+  #   image: projectbv.azurecr.io/chat
+  #   container_name: chat
+  #   networks:
+  #     custom_network:
+  #       ipv4_address: 172.16.0.8
+  #   ports:
+  #     - "8002:8002"  # Map to a different host port
 
-  frontend:
-    container_name: client
-    image: client:latest
-    environment:
-      NG_APP_HOST_USER_API: http://172.16.0.3:8080
-      NG_APP_HOST_DEVICE_API: http://172.16.0.5:8000
-    ports:
-      - "4200:4200"
-    depends_on:
-      - user-management-app
-      - device-management-app
-      - monitoring-app
-      - chat-app
+  # frontend:
+  #   container_name: client
+  #   image: projectbv.azurecr.io/client
+  #   environment:
+  #     NG_APP_HOST_USER_API: http://172.16.0.3:8080
+  #     NG_APP_HOST_DEVICE_API: http://172.16.0.5:8000
+  #   ports:
+  #     - "4200:4200"
+  #   depends_on:
+  #     - user-management-app
+  #     - device-management-app
+  #     - monitoring-app
+  #     - chat-app
