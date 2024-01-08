@@ -1,0 +1,7 @@
+ro\tuc\ds2020\Ds2020Application.class
+ro\tuc\ds2020\controllers\WebSocketController.class
+ro\tuc\ds2020\entities\Notification.class
+ro\tuc\ds2020\controllers\IndexController.class
+ro\tuc\ds2020\config\RedisConfig.class
+ro\tuc\ds2020\config\CorsConfig.class
+ro\tuc\ds2020\config\WeSocketConfig.class

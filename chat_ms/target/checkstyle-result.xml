@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="6.18">
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\config\CorsConfig.java">
+<error line="10" column="5" severity="warning" message="Method &apos;corsFilter&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\config\RedisConfig.java">
+<error line="14" column="8" severity="warning" message="Unused import - org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="31" column="5" severity="warning" message="Method &apos;cacheManager&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="32" column="43" severity="warning" message="Parameter redisConnectionFactory should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="41" column="5" severity="warning" message="Method &apos;jedisConnectionFactory&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="51" column="5" severity="warning" message="Method &apos;redisTemplate&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\config\WeSocketConfig.java">
+<error line="12" column="5" severity="warning" message="Method &apos;configureMessageBroker&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="13" column="40" severity="warning" message="Parameter config should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="18" column="5" severity="warning" message="Method &apos;registerStompEndpoints&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="19" column="40" severity="warning" message="Parameter registry should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\controllers\IndexController.java">
+<error line="12" column="5" severity="warning" message="Method &apos;getStatus&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\controllers\WebSocketController.java">
+<error line="27" column="5" severity="warning" message="Method &apos;receiveNotification&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="29" column="37" severity="warning" message="Parameter notification should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="42" column="5" severity="warning" message="Method &apos;getStoredMessages&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="44" column="35" severity="warning" message="Parameter payload should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="56" column="41" severity="warning" message="Parameter userId1 should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="56" column="54" severity="warning" message="Parameter userId2 should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="62" column="40" severity="warning" message="&apos;17&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="62" column="44" severity="warning" message="&apos;37&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="70" column="5" severity="warning" message="Method &apos;receiveTypingNotification&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="72" column="43" severity="warning" message="Parameter notification should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\Ds2020Application.java">
+<error line="14" column="5" severity="warning" message="Method &apos;configure&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="15" column="50" severity="warning" message="Parameter application should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="19" column="29" severity="warning" message="Parameter args should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\java\ro\tuc\ds2020\entities\Notification.java">
+<error line="10" column="25" severity="warning" message="Parameter message should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="10" column="32" severity="warning" message="&apos;message&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+<error line="10" column="41" severity="warning" message="Parameter deviceId should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="10" column="55" severity="warning" message="Parameter fromPersonId should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="10" column="59" severity="warning" message="&apos;fromPersonId&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+<error line="16" column="5" severity="warning" message="Method &apos;getMessage&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="20" column="5" severity="warning" message="Method &apos;setMessage&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="20" column="28" severity="warning" message="Parameter message should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="20" column="35" severity="warning" message="&apos;message&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+<error line="24" column="5" severity="warning" message="Method &apos;getToPersonId&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="28" column="5" severity="warning" message="Method &apos;setToPersonId&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="28" column="31" severity="warning" message="Parameter toPersonId should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="28" column="35" severity="warning" message="&apos;toPersonId&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+<error line="32" column="5" severity="warning" message="Method &apos;getFromPersonId&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="36" column="5" severity="warning" message="Method &apos;setFromPersonId&apos; is not designed for extension - needs to be abstract, final or empty." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="36" column="33" severity="warning" message="Parameter fromPersonId should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+<error line="36" column="37" severity="warning" message="&apos;fromPersonId&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+</file>
+<file name="D:\FACULTATE\ANIV\DS\assignmnet3\chat_ms\src\main\resources\application.properties">
+</file>
+</checkstyle>
