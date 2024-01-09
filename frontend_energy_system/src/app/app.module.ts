@@ -70,7 +70,11 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["http://127.0.0.1:8080", "http://127.0.0.1:8000", "http://127.0.0.1:8081", "ws://127.0.0.1:8081", "http://127.0.0.1:4200"],
+        allowedDomains: ["http://users-ms-bv.b7gcdzh6bmd0hgee.switzerlandwest.azurecontainer.io:8080", 
+        "http://devices-ms-bv.e3eabjgxgchfaca5.switzerlandwest.azurecontainer.io:8000", 
+        "http://monitoring-ms-bv.bsh2aqg8chcxeves.switzerlandwest.azurecontainer.io:8001/", 
+        "ws://monitoring-ms-bv.bsh2aqg8chcxeves.switzerlandwest.azurecontainer.io:8001/", 
+        "http://client-ms-bv.aqeme8cygncrh0ec.switzerlandnorth.azurecontainer.io:80/"],
         disallowedRoutes: []
       }
     }),

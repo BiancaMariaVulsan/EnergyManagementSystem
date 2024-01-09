@@ -12,7 +12,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://20.250.120.133:4200");
+        config.addAllowedOrigin("http://client-ms-bv.aqeme8cygncrh0ec.switzerlandnorth.azurecontainer.io");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("GET");

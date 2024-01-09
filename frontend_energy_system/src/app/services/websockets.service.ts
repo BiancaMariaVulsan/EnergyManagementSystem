@@ -11,9 +11,9 @@ import { Observable, Subject, of } from "rxjs";
 export class WebSocketSrvice {
     name: string;
 
-    webSocketEndPoint: string = 'http://4.225.32.206:8001/ws';
-    webSocketChatEndPoint: string = 'http://20.240.172.40:8002/ws';
-    webSocketNotifEndPoint: string = 'http://20.240.172.40:8002/notif';
+    webSocketEndPoint: string = 'http://monitoring-ms-bv.bsh2aqg8chcxeves.switzerlandwest.azurecontainer.io:8001//ws';
+    webSocketChatEndPoint: string = 'http://chat-ms-bv.adc9hkascycshkgd.switzerlandwest.azurecontainer.io:8002//ws';
+    webSocketNotifEndPoint: string = 'http://chat-ms-bv.adc9hkascycshkgd.switzerlandwest.azurecontainer.io:8002//notif';
     topic: string = "/topic/notification/" + localStorage.getItem("eshop-userid");
     stompClient: any;
     stompClientChat: any;

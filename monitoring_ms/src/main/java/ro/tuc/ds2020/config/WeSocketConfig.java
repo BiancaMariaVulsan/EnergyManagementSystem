@@ -17,6 +17,6 @@ public class WeSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("http://20.250.120.133:4200").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("http://client-ms-bv.aqeme8cygncrh0ec.switzerlandnorth.azurecontainer.io").withSockJS();
     }
 }

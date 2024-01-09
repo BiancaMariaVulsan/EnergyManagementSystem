@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  personApiUrl: 'http://20.240.25.157:8080/',
-  deviceApiUrl: 'http://4.225.16.60:8000/',
-  measurementsApiUrl: 'http://4.225.32.206:8001/'
+  personApiUrl: 'http://users-ms-bv.b7gcdzh6bmd0hgee.switzerlandwest.azurecontainer.io:8080',
+  deviceApiUrl: 'http://devices-ms-bv.e3eabjgxgchfaca5.switzerlandwest.azurecontainer.io:8000',
+  measurementsApiUrl: 'http://monitoring-ms-bv.bsh2aqg8chcxeves.switzerlandwest.azurecontainer.io:8001/'
 };
