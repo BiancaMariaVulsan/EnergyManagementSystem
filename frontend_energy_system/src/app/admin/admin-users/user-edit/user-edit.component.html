@@ -1,0 +1,78 @@
+<div class="form froup-row screen-container">
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Username</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control text-input" [(ngModel)]="user.username"
+            placeholder="Enter Client Username">
+        </div>
+    </div>
+    
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control text-input" [(ngModel)]="user.password"
+            placeholder="Enter Client Password">
+        </div>
+    </div>  
+
+    <!-- <div class="row">
+        <label class="col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control text-input" [(ngModel)]="client.repeatedPassword"
+            placeholder="Repeat Client Password">
+        </div>  
+    </div> -->
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Firstname</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control text-input" [(ngModel)]="user.firstName"
+            placeholder="Enter Client Firstname">
+        </div>  
+    </div>
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Lastname</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control text-input" [(ngModel)]="user.lastName"
+            placeholder="Enter Client Lastname">
+        </div>
+    </div>
+ 
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Email</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control text-input" [(ngModel)]="user.email"
+            placeholder="Enter Email">
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-sm-3 col-form-label">Role</label>
+        <div class="col-sm-9">
+            <div class="btn-group">
+                <button type="button" class="modal-button dropdown-toggle form-control text-input" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{roleDropdownText}}
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" *ngFor="let role of roles" (click)="onPickRole(role)">{{role.name}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group-row">
+    <div class="row justify-content-end">
+        <button (click)="addClient()" *ngIf="user.id === 0" class="btn"
+            [ngClass]="{ 'disabled-control' : !completedFields() }">
+            Add
+        </button>
+
+        <button (click)="updateClient()" *ngIf="user.id !== 0" class="btn"
+            data-dismiss="modal"
+            [ngClass]="{ 'disabled-control' : !completedFields() }">
+            Update
+        </button>
+    </div>
+</div>

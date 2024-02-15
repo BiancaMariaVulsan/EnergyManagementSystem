@@ -1,0 +1,124 @@
+version: '3'
+
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
+        
+services:
+  # PostgreSQL service for user management
+  postgres-user:
+    image: postgres:16-alpine3.18
+    container_name: postgres-user
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.2
+    environment:
+      POSTGRES_DB: person-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Vulsan2001
+    expose:
+      - 5432
+      
+  # Spring Boot application service for user management
+  user-management-app:
+    image: users:latest
+    container_name: users
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.3
+    environment:
+      DB_IP: 172.16.0.2
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: Vulsan2001
+      DB_DBNAME: person-db
+      DEVICE_CONTAINER_NAME: 172.16.0.5
+      DEVICE_CONTAINER_PORT: 8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-user
+
+  # PostgreSQL service for device management
+  postgres-device:
+    image: postgres:16-alpine3.18
+    container_name: postgres-device
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.4
+    environment:
+      POSTGRES_DB: device-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Vulsan2001
+    expose:
+      - 5432
+   # Use a different port for the second PostgreSQL instance
+      
+  # Spring Boot application service for device management
+  device-management-app:
+    image: devices:latest
+    container_name: devices
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.5
+    environment:
+      DB_IP: 172.16.0.4
+      DB_PORT: 5432  
+      DB_USER: postgres
+      DB_PASSWORD: Vulsan2001
+      DB_DBNAME: device-db
+      USER_CONTAINER_NAME: 172.16.0.3
+      USER_CONTAINER_PORT: 8080
+    ports:
+      - "8000:8000"  # Map to a different host port
+    depends_on:
+      - postgres-device
+    
+  # PostgreSQL service for monitoring
+  postgres-monitoring:
+    image: postgres:16-alpine3.18
+    container_name: postgres-monitoring
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.6
+    environment:
+      POSTGRES_DB: monitoring-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Vulsan2001
+    expose:
+      - 5432
+   # Use a different port for the second PostgreSQL instance
+      
+  # Spring Boot application service for monitoring
+  monitoring-app:
+    image: monitoring:latest
+    container_name: monitoring
+    networks:
+      custom_network:
+        ipv4_address: 172.16.0.7
+    environment:
+      DB_IP: 172.16.0.6
+      DB_PORT: 5432  
+      DB_USER: postgres
+      DB_PASSWORD: Vulsan2001
+      DB_DBNAME: monitoring-db
+    ports:
+      - "8001:8001"  # Map to a different host port
+    depends_on:
+      - postgres-monitoring
+
+  frontend:
+    container_name: client
+    image: client:latest
+    environment:
+      NG_APP_HOST_USER_API: http://172.16.0.3:8080
+      NG_APP_HOST_DEVICE_API: http://172.16.0.5:8000
+    ports:
+      - "4200:4200"
+    depends_on:
+      - user-management-app
+      - device-management-app
+      - monitoring-app

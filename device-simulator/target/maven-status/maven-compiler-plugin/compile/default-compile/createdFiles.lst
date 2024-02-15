@@ -1,0 +1,4 @@
+Measurement.class
+MeasurementsReader.class
+RabbitMQ_Sender.class
+MeasurementsReader$ReadCsvTask.class

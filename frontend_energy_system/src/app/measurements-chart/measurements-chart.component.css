@@ -1,0 +1,9 @@
+#monitorDay {
+  width: 200px;
+  color: black;
+  font-size: 30px;
+  height: 70px;
+  border-radius: 5px;
+  position: relative;
+  left: 40%;
+}
