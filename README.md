@@ -1,4 +1,3 @@
-# EnergyManagementSystem
 # DS2023_30441_Vulsan_Bianca_Assignment_2
 
 
