@@ -17,4 +17,4 @@ git push -uf origin main
 Energy Management System
 
 ## Description
-This project provides a simulation for an energy management system functionality. It contains a device simulator that sends the energy consumption within a fixed amount of time.
+This project provides a simulation for an energy management system functionality. It contains a device simulator that sends the energy consumption within a fixed amount of time through a RabbitMQ queue.
