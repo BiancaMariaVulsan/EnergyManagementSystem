@@ -21,3 +21,5 @@ This project provides a simulation for an energy management system functionality
 
 ## Programming Languages
 The backend uses Java Spring, while the frontend uses Angular.
+RabbitMQ was used for the indirect communication between services
+The project was deployed using both Docker and Azure.
